@@ -20,11 +20,10 @@ canvas {
 
 .ui-panel {
     pointer-events: auto;
-    background: rgba(10, 10, 15, 0.9);
-    border: 2px solid #8a6d3b;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(0,0,0,0.5);
-    border-radius: 4px;
-    position: relative;
+    background: rgba(12, 12, 16, 0.98);
+    border: 2px solid #5a4a35;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 1), inset 0 0 30px rgba(0,0,0,0.8);
+    color: #a8a090;
 }
 
 /* SYSTEM MENU (Top Right) */
@@ -33,280 +32,184 @@ canvas {
     top: 10px; right: 10px;
     display: flex; gap: 5px;
     pointer-events: auto;
+    z-index: 90;
 }
 .sys-btn {
-    background: rgba(10, 10, 15, 0.9);
-    border: 1px solid #8a6d3b;
-    color: #f1c40f; 
-    padding: 5px 10px; 
+    background: #1a1a20;
+    border: 1px solid #5a4a35;
+    color: #c0b090;
+    padding: 5px 12px; 
     cursor: pointer;
-    font-size: 12px; 
+    font-size: 13px; 
     font-family: 'Cinzel', serif;
-    opacity: 0.8;
-    transition: opacity 0.2s, background 0.2s;
+    transition: all 0.2s;
+    text-transform: uppercase;
 }
 .sys-btn:hover { 
-    opacity: 1; 
-    background: #2c3e50; 
+    background: #2e2820; border-color: #f1c40f; color: #fff;
 }
 
-/* GÓRNY HUD (Status) */
-#top-hud {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    padding: 10px 30px;
-    border-top: none;
-    border-radius: 0 0 15px 15px;
-    background: linear-gradient(to bottom, rgba(20,20,30,0.95), rgba(10,10,15,0.85));
+/* SIDE PANEL (EKWIPUNEK) */
+.side-panel {
+    position: fixed; /* Zmiana na fixed */
+    top: 0; right: -450px;
+    width: 400px;
+    height: 100vh;
+    border-left: 3px solid #f1c40f; /* Jasna ramka do testów */
+    background: rgba(20, 20, 25, 1); /* Bardziej nieprzezroczyste */
+    transition: right 0.3s ease-in-out;
+    display: flex; flex-direction: column;
+    z-index: 999; /* Bardzo wysoki z-index */
+    pointer-events: auto;
+}
+.side-panel.open {
+    right: 0 !important;
 }
 
-/* Paski postępu (HP/MP) - teraz poziome belki */
-.bar-container {
-    width: 200px;
-    height: 20px;
-    background: #111;
-    border: 1px solid #444;
-    position: relative;
-    box-shadow: inset 0 0 5px #000;
-}
-.bar-fill {
-    height: 100%;
-    width: 100%;
-    transition: width 0.2s;
-    position: relative;
-}
-/* Efekt połysku na pasku */
-.bar-fill::after {
-    content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 50%;
-    background: rgba(255,255,255,0.1);
-}
-
-#hp-bar .bar-fill { background: linear-gradient(to right, #800000, #e74c3c); box-shadow: 0 0 10px #e74c3c; }
-#mp-bar .bar-fill { background: linear-gradient(to right, #000080, #3498db); box-shadow: 0 0 10px #3498db; }
-
-.bar-text {
-    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-    font-size: 12px; font-weight: bold; text-shadow: 1px 1px 2px #000; z-index: 2;
-}
-
-/* Ikona centralna (np. poziom) */
-#level-badge {
-    width: 40px; height: 40px;
-    border: 2px solid #8a6d3b;
-    border-radius: 50%;
-    background: #222;
-    display: flex; justify-content: center; align-items: center;
-    font-weight: bold; font-size: 18px; color: #f1c40f;
-    box-shadow: 0 0 10px #000;
-}
-
-/* Skille */
-#skills {
-    display: flex; gap: 5px; margin-left: 20px;
-}
-.skill-btn {
-    width: 35px; height: 35px;
-    background: #222; border: 1px solid #555;
-    cursor: pointer; box-shadow: inset 0 0 5px #000;
-}
-
-/* PRZYCISK MENU POSTACI (Prawy Dół) */
-#btn-character {
-    position: absolute;
-    bottom: 20px; right: 20px;
-    width: 60px; height: 60px;
-    background: #2c3e50;
-    border: 2px solid #8a6d3b;
-    border-radius: 50%;
-    cursor: pointer;
-    display: flex; justify-content: center; align-items: center;
-    font-size: 24px; color: #f1c40f;
-    box-shadow: 0 0 15px #000;
-    transition: transform 0.1s;
-}
-#btn-character:active { transform: scale(0.95); }
-#btn-character::after { content: 'POSTAĆ'; font-size: 10px; position: absolute; bottom: 8px; }
-
-/* OKNO POSTACI (Modal) */
-#character-window {
-    display: none; /* Domyślnie ukryte */
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    width: 300px;
-    min-height: 400px;
-    z-index: 100;
-}
-
-.window-header {
-    border-bottom: 1px solid #8a6d3b;
-    padding-bottom: 10px; margin-bottom: 15px;
+.panel-header {
+    background: #151515;
+    border-bottom: 2px solid #5a4a35;
+    padding: 15px;
     display: flex; justify-content: space-between; align-items: center;
 }
-.window-title { font-size: 20px; color: #f1c40f; }
+.panel-title { font-size: 20px; color: #d4af37; letter-spacing: 2px; text-transform: uppercase; }
 .close-btn { 
-    cursor: pointer; color: #888; font-weight: bold; font-size: 20px; 
+    cursor: pointer; color: #888; font-size: 24px; font-weight: bold; line-height: 1;
 }
-.close-btn:hover { color: #fff; }
+.close-btn:hover { color: #f1c40f; }
 
-.stat-row {
-    display: flex; justify-content: space-between;
-    padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.1);
-}
-.stat-val { color: #f1c40f; }
-
-/* Avatar w oknie postaci */
-#char-avatar {
-    width: 100px; height: 100px;
-    margin: 0 auto 20px auto;
-    border: 2px solid #555;
-    background: #111;
-    display: flex; justify-content: center; align-items: center;
-    font-size: 40px; color: #333;
-}
-
-/* Style dla Inventory */
-#inventory-window {
-    width: 500px;
-    height: 400px;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 100;
-}
-
-.inv-container {
-    display: flex;
-    height: 330px;
-    gap: 10px;
-}
-
-.equipment-col {
+.scroll-content {
     flex: 1;
-    border-right: 1px solid #444;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.backpack-col {
-    flex: 1.5;
-}
-
-.equip-slots {
-    margin-top: 10px;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    align-items: center;
-}
-.equip-row { display: flex; gap: 5px; }
-
-.item-slot {
-    width: 40px; height: 40px;
-    background: rgba(0,0,0,0.5);
-    border: 1px solid #555;
-    box-shadow: inset 0 0 5px #000;
-    display: flex; justify-content: center; align-items: center;
-    cursor: pointer;
-}
-.item-slot:hover { border-color: #aaa; }
-
-.backpack-grid {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 5px;
-    margin-top: 10px;
-}
-
-.item-icon {
-    width: 32px; height: 32px;
-    pointer-events: none; /* Klikamy w slot, nie w obrazek */
-}
-
-/* Loot Window */
-#loot-window {
-    width: 250px;
-    top: 40%; left: 60%; /* Trochę obok środka */
-    z-index: 101;
-}
-
-.action-btn {
-    background: #2c3e50; border: 1px solid #8a6d3b;
-    color: #f1c40f; padding: 5px 15px; cursor: pointer;
-    font-family: 'Cinzel', serif;
-}
-.action-btn:hover { background: #34495e; }
-
-/* AUTO SAVE INDICATOR */
-#autosave-indicator {
-    position: absolute;
-    bottom: 20px; left: 20px;
-    color: #f1c40f;
-    font-family: 'Cinzel', serif;
-    font-size: 14px;
-    opacity: 0;
-    transition: opacity 0.5s;
-    pointer-events: none;
-    text-shadow: 1px 1px 2px #000;
-}
-
-/* SAVE/LOAD WINDOW */
-#save-load-window {
-    width: 400px;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 110;
+    overflow-y: auto;
     padding: 20px;
 }
 
-.save-slot {
-    background: rgba(0, 0, 0, 0.4);
-    border: 1px solid #555;
-    padding: 10px;
-    margin-bottom: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-.save-slot:hover {
-    background: rgba(255, 255, 255, 0.05);
+/* CHARACTER SECTION */
+.char-section {
+    position: relative;
+    height: 420px; /* Miejsce na sloty */
+    background: #101012;
+    border: 1px solid #333;
+    margin-bottom: 15px;
+    box-shadow: inset 0 0 50px #000;
 }
 
-.slot-info {
-    display: flex;
-    flex-direction: column;
-}
-.slot-name {
-    color: #f1c40f;
-    font-weight: bold;
-}
-.slot-details {
-    font-size: 12px;
-    color: #aaa;
+.char-silhouette {
+    width: 140px; height: 300px;
+    position: absolute;
+    top: 20px; left: 50%; transform: translateX(-50%);
+    border: 1px dashed #333;
+    border-radius: 60px 60px 20px 20px;
+    opacity: 0.2;
+    background: #080808;
 }
 
-.slot-actions {
-    display: flex;
-    gap: 5px;
+.slot-col {
+    position: absolute;
+    top: 20px;
+    display: flex; flex-direction: column; gap: 10px;
 }
-.btn-save, .btn-load {
-    background: #2c3e50;
-    border: 1px solid #8a6d3b;
-    color: #dcdcdc;
+.left-col { left: 20px; }
+.right-col { right: 20px; }
+
+.hands-row {
+    position: absolute;
+    bottom: 20px; left: 50%; transform: translateX(-50%);
+    display: flex; gap: 40px; align-items: flex-end;
+}
+
+/* Slot Styles */
+.item-slot {
+    width: 48px; height: 48px;
+    background: #050505;
+    border: 1px solid #444;
+    box-shadow: inset 0 0 10px #000;
+    display: flex; justify-content: center; align-items: center;
     cursor: pointer;
-    font-family: 'Cinzel', serif;
-    padding: 5px 10px;
-    font-size: 11px;
+    position: relative;
 }
-.btn-save:hover { background: #e67e22; color: #fff; }
-.btn-load:hover { background: #27ae60; color: #fff; }
+.item-slot:hover { border-color: #d4af37; background: #1a1a1a; }
+.item-icon { width: 38px; height: 38px; pointer-events: none; }
 
-.btn-load:disabled {
-    opacity: 0.3;
-    cursor: default;
+.big-slot { width: 64px; height: 96px; } /* Broń */
+.bag-slot { border-style: dashed; opacity: 0.5; color: #555; font-size: 24px; }
+.bag-slot:hover { opacity: 1; color: #f1c40f; }
+
+/* STATS ROW */
+.stats-compact {
+    display: flex; justify-content: space-between;
+    background: #1a1a1d;
+    padding: 10px;
+    border: 1px solid #333;
+    margin-bottom: 15px;
 }
+.stat-box { font-size: 14px; color: #aaa; }
+.stat-box span { color: #f1c40f; font-weight: bold; }
+
+/* BACKPACK */
+.backpack-section {
+    background: #08080a;
+    border: 1px solid #333;
+    padding: 10px;
+}
+.backpack-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 10px;
+    color: #8a6d3b; font-size: 14px; text-transform: uppercase;
+}
+.backpack-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr); /* 6 kolumn dla węższego panelu */
+    gap: 4px;
+}
+
+
+/* GÓRNY HUD (Status) - zachowany, ale lekko przyciemniony */
+#top-hud {
+    position: absolute;
+    top: 0; left: 50%; transform: translateX(-50%);
+    display: flex; align-items: center; gap: 15px; padding: 10px 30px;
+    border-radius: 0 0 5px 5px;
+    background: linear-gradient(to bottom, #1a1a1d, #0d0d10);
+    border: 1px solid #5a4a35; border-top: 0;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    z-index: 80;
+}
+
+.bar-container {
+    width: 200px; height: 16px; background: #0a0a0a; border: 1px solid #333; position: relative;
+}
+.bar-fill { height: 100%; transition: width 0.2s; position: relative; }
+.bar-fill::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 50%; background: rgba(255,255,255,0.15); }
+#hp-bar .bar-fill { background: linear-gradient(to right, #600000, #a00000); }
+#mp-bar .bar-fill { background: linear-gradient(to right, #000050, #0000a0); }
+.bar-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 11px; font-weight: bold; color: #fff; z-index: 2; }
+
+#level-badge {
+    width: 36px; height: 36px; border: 2px solid #5a4a35; border-radius: 50%;
+    background: #111; display: flex; justify-content: center; align-items: center;
+    font-weight: bold; font-size: 16px; color: #f1c40f;
+}
+
+#skills { display: flex; gap: 5px; margin-left: 20px; }
+.skill-btn { width: 30px; height: 30px; background: #222; border: 1px solid #444; }
+
+/* PRZYCISK MENU POSTACI (Prawy Dół) */
+#btn-character {
+    position: absolute; bottom: 20px; right: 20px;
+    width: 50px; height: 50px; background: #1a1a20; border: 2px solid #5a4a35;
+    border-radius: 4px; transform: rotate(45deg); cursor: pointer;
+    display: flex; justify-content: center; align-items: center;
+    box-shadow: 0 0 15px #000; z-index: 100;
+}
+#btn-character span { transform: rotate(-45deg); font-size: 20px; color: #f1c40f; }
+
+/* Save/Load Window & Loot Window - unchanged mostly but z-index adjustments */
+#loot-window { width: 250px; top: 40%; left: 60%; z-index: 150; position: absolute; background: rgba(10, 10, 15, 0.95); border: 2px solid #8a6d3b; padding: 10px; }
+#save-load-window { width: 400px; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 250; position: absolute; background: rgba(10, 10, 15, 0.95); border: 2px solid #8a6d3b; padding: 20px; }
+
+.window-header { display: flex; justify-content: space-between; margin-bottom: 10px; color: #f1c40f; border-bottom: 1px solid #444; padding-bottom: 5px; }
+.save-slot { background: rgba(0,0,0,0.5); border: 1px solid #444; margin-bottom: 5px; padding: 10px; display: flex; justify-content: space-between; }
+.btn-save, .btn-load { background: #333; color: #ddd; border: 1px solid #555; padding: 5px 10px; cursor: pointer; }
+
+#autosave-indicator { position: absolute; bottom: 20px; left: 20px; color: #f1c40f; opacity: 0; pointer-events: none; }

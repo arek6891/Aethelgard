@@ -22,5 +22,5 @@
 - [ ] Urozmaicenie terenu (drzewa, woda).
 
 [GAMEPLAY - MECHANIKA]
-- [ ] System walki: Dodać animację ataku rycerza (wymachiwanie mieczem) i cooldowny.
+- [x] System walki: Dodać animację ataku rycerza (wymachiwanie mieczem) i cooldowny.
 - [ ] Regeneracja wrogów (Respawn).

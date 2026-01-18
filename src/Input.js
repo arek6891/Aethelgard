@@ -21,9 +21,25 @@ export function initInput() {
         // 1. Sprawdź kliknięcie we WROGA
         const enemy = state.enemies.find(e => Math.round(e.x) === tX && Math.round(e.y) === tY);
         if (enemy) {
+            const now = Date.now();
+            if (now - state.player.lastAttackTime < state.player.attackCooldown) {
+                console.log("Attack cooldown!");
+                return;
+            }
+            state.player.lastAttackTime = now;
+
             sfx.attack();
-            enemy.hp -= 10;
-            console.log(`Atak! HP Wroga: ${enemy.hp}`);
+            // Calculate Damage based on STR + Equipment
+            let dmg = Math.floor(state.player.stats.str / 2);
+            if (state.player.equipment.mainhand && state.player.equipment.mainhand.stats) {
+                 // Check if mainhand has stats (some might not have str explicitly in future)
+                 if(state.player.equipment.mainhand.stats.str) dmg += state.player.equipment.mainhand.stats.str;
+            }
+            // Basic randomization
+            dmg = Math.floor(dmg * (0.8 + Math.random() * 0.4));
+
+            enemy.hp -= dmg;
+            console.log(`Atak za ${dmg} obrażeń! HP Wroga: ${enemy.hp}`);
             
             enemy.x += 0.1; 
             setTimeout(() => enemy.x -= 0.1, 100);

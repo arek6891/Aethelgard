@@ -55,51 +55,63 @@
         </div>
 
         <!-- PRZYCISK MENU POSTACI (Prawy Dół) -->
-        <div id="btn-character" class="ui-panel" onclick="toggleInventory()">
+        <div id="btn-character" class="ui-panel">
             🛡️
         </div>
 
-        <!-- OKNO EKWIPUNKU I POSTACI -->
-        <div id="inventory-window" class="ui-panel" style="display: none;">
-            <div class="window-header">
-                <span class="window-title">Bohater</span>
-                <span class="close-btn" onclick="toggleInventory()">X</span>
+        <!-- PANEL EKWIPUNKU (Wysuwany z prawej) -->
+        <div id="inventory-panel" class="ui-panel side-panel" style="right: -450px;"> <!-- Start hidden -->
+            <div class="panel-header">
+                <span class="panel-title">Bohater</span>
+                <span class="close-btn" id="btn-close-inv">»</span>
             </div>
-            
-            <div class="inv-container">
-                <!-- Lewa strona: Postać i Ekwipunek -->
-                <div class="equipment-col">
-                    <div class="char-preview">
-                        <!-- Tu będzie podgląd postaci w przyszłości -->
-                        <div style="font-size: 40px;">🤺</div>
-                    </div>
-                    
-                    <div class="equip-slots">
-                        <div class="equip-row">
-                            <div class="item-slot" data-slot="head" title="Głowa"></div>
-                        </div>
-                        <div class="equip-row">
-                            <div class="item-slot" data-slot="mainhand" title="Broń"></div>
-                            <div class="item-slot" data-slot="chest" title="Zbroja"></div>
-                            <div class="item-slot" data-slot="offhand" title="Tarcza"></div>
-                        </div>
-                        <div class="equip-row">
-                            <div class="item-slot" data-slot="legs" title="Nogi"></div>
-                        </div>
+
+            <div class="scroll-content">
+                <!-- SEKCJA POSTACI (Paper Doll Expanded) -->
+                <div class="char-section">
+                    <div class="char-silhouette"></div>
+
+                    <!-- LEWA KOLUMNA -->
+                    <div class="slot-col left-col">
+                        <div class="item-slot equip-slot" data-slot="head" title="Hełm"></div>
+                        <div class="item-slot equip-slot" data-slot="shoulders" title="Naramienniki"></div>
+                        <div class="item-slot equip-slot" data-slot="chest" title="Zbroja"></div>
+                        <div class="item-slot equip-slot" data-slot="legs" title="Spodnie"></div>
+                        <div class="item-slot equip-slot" data-slot="boots" title="Buty"></div>
                     </div>
 
-                    <div class="mini-stats">
-                        <div>STR: <span id="stat-str">10</span></div>
-                        <div>DEX: <span id="stat-dex">10</span></div>
-                        <div>INT: <span id="stat-int">10</span></div>
+                    <!-- PRAWA KOLUMNA -->
+                    <div class="slot-col right-col">
+                        <div class="item-slot equip-slot" data-slot="amulet" title="Amulet"></div>
+                        <div class="item-slot equip-slot" data-slot="gloves" title="Rękawice"></div> <!-- Zamiast Pasa dałem rękawice jako standard, ale mogę zmienić na pas -->
+                        <div class="item-slot equip-slot" data-slot="ring1" title="Pierścień"></div>
+                        <div class="item-slot equip-slot" data-slot="ring2" title="Pierścień"></div>
+                        <div class="item-slot equip-slot" data-slot="talisman" title="Talizman"></div>
+                    </div>
+
+                    <!-- RĘCE (BROŃ) -->
+                    <div class="hands-row">
+                        <div class="item-slot equip-slot big-slot" data-slot="mainhand" title="Prawa Ręka"></div>
+                        <div class="item-slot equip-slot" data-slot="belt" title="Pas"></div> <!-- Pas tutaj, pośrodku? Albo obok -->
+                        <div class="item-slot equip-slot big-slot" data-slot="offhand" title="Lewa Ręka"></div>
                     </div>
                 </div>
 
-                <!-- Prawa strona: Plecak -->
-                <div class="backpack-col">
-                    <div class="backpack-title">Plecak (0/20)</div>
+                <!-- STATYSTYKI -->
+                <div class="stats-compact">
+                    <div class="stat-box">STR: <span id="stat-str">0</span></div>
+                    <div class="stat-box">DEX: <span id="stat-dex">0</span></div>
+                    <div class="stat-box">INT: <span id="stat-int">0</span></div>
+                </div>
+
+                <!-- PLECAK -->
+                <div class="backpack-section">
+                    <div class="backpack-header">
+                        <span>Plecak</span>
+                        <div class="item-slot bag-slot" data-slot="bag" title="Dodatkowa Torba">+</div>
+                    </div>
                     <div class="backpack-grid" id="backpack-grid">
-                        <!-- Generowane przez JS: 20 slotów -->
+                        <!-- Generowane JS -->
                     </div>
                 </div>
             </div>
@@ -124,13 +136,7 @@
     <script type="module" src="src/main.js"></script>
     <script>
         // Funkcje UI wywoływane z HTML
-        function toggleInventory() {
-            const win = document.getElementById('inventory-window');
-            win.style.display = (win.style.display === 'none') ? 'block' : 'none';
-            if (win.style.display === 'block' && window.refreshInventoryUI) {
-                window.refreshInventoryUI();
-            }
-        }
+        // toggleInventory is handled by UI.js now
 
         function toggleSaveWindow() {
             const win = document.getElementById('save-load-window');

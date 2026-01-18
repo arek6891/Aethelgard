@@ -2,7 +2,6 @@ import { state } from './GameState.js';
 import { sfx } from './Audio.js';
 
 function updateStats() {
-    // Prosta aktualizacja wyświetlania
     const sStr = document.getElementById('stat-str');
     if(sStr) sStr.innerText = state.player.stats.str;
     const sDex = document.getElementById('stat-dex');
@@ -31,7 +30,7 @@ ${item.description}` : '');
     });
 
     // Rysowanie ekwipunku
-    const equipSlots = document.querySelectorAll('.equip-slots .item-slot');
+    const equipSlots = document.querySelectorAll('.equip-slot');
     equipSlots.forEach(slot => {
         const slotType = slot.dataset.slot;
         slot.innerHTML = ''; // Wyczyść
@@ -66,7 +65,7 @@ export function refreshLootUI() {
         
         slot.onclick = () => {
             if (state.player.inventory.length < state.player.backpackSize) {
-                sfx.loot(); // Dźwięk lootu
+                sfx.loot(); 
                 state.player.inventory.push(item);
                 const idx = state.currentLootBag.items.indexOf(item);
                 if (idx > -1) state.currentLootBag.items.splice(idx, 1);
@@ -88,10 +87,37 @@ export function refreshLootUI() {
 // Global functions for HTML access
 window.refreshInventoryUI = refreshInventoryUI;
 
+window.toggleInventory = function() {
+    console.log("Toggle Inventory Clicked!");
+    const panel = document.getElementById('inventory-panel');
+    if (!panel) {
+        console.error("Inventory panel not found!");
+        return;
+    }
+    panel.classList.toggle('open');
+    if (panel.classList.contains('open')) {
+        refreshInventoryUI();
+    }
+};
+
+export function initUI() {
+    console.log("Attaching UI listeners...");
+    const btnChar = document.getElementById('btn-character');
+    if (btnChar) {
+        btnChar.addEventListener('click', window.toggleInventory);
+        console.log("Listener attached to btn-character");
+    } else {
+        console.error("btn-character not found in DOM");
+    }
+
+    const btnClose = document.getElementById('btn-close-inv');
+    if (btnClose) btnClose.addEventListener('click', window.toggleInventory);
+}
+
 window.takeAllLootLogic = function() {
     if (!state.currentLootBag) return;
     
-    if (state.currentLootBag.items.length > 0) sfx.loot(); // Dźwięk przy "Weź wszystko"
+    if (state.currentLootBag.items.length > 0) sfx.loot(); 
 
     while (state.currentLootBag.items.length > 0) {
         if (state.player.inventory.length < state.player.backpackSize) {
@@ -122,8 +148,7 @@ window.unequipItem = function(slotName) {
         return;
     }
 
-    sfx.equip(); // Dźwięk zdjęcia
-    // Zdejmij
+    sfx.equip(); 
     state.player.equipment[slotName] = null;
     state.player.inventory.push(item);
 
@@ -143,21 +168,28 @@ window.useItem = function(index) {
     if (!item) return;
     
     if (item.type === 'potion') {
-        sfx.potion(); // Dźwięk mikstury
+        sfx.potion(); 
         state.player.hp = Math.min(state.player.hp + 20, state.player.maxHp);
         state.player.inventory.splice(index, 1);
         refreshInventoryUI();
-        console.log("Wypito miksturę!");
     }
     else if (item.type === 'equipment') {
-        sfx.equip(); // Dźwięk założenia
-        const slot = item.slot;
+        sfx.equip();
+        let slot = item.slot;
+        
+        // Specjalna logika dla pierścieni (ring1/ring2)
+        if (slot === 'ring') {
+            // Jeśli ring1 pusty, załóż tam. Jak zajęty, sprawdź ring2. Jak oba zajęte, podmień ring1. 
+            if (!state.player.equipment.ring1) slot = 'ring1';
+            else if (!state.player.equipment.ring2) slot = 'ring2';
+            else slot = 'ring1'; 
+        }
+
         const currentEquip = state.player.equipment[slot];
 
         // Zdejmij obecny (jeśli jest)
         if (currentEquip) {
-            state.player.inventory[index] = currentEquip; // Podmień w plecaku
-            // Odejmij staty starego
+            state.player.inventory[index] = currentEquip; 
             if (currentEquip.stats) {
                 if (currentEquip.stats.str) state.player.stats.str -= currentEquip.stats.str;
                 if (currentEquip.stats.dex) state.player.stats.dex -= currentEquip.stats.dex;
@@ -165,14 +197,13 @@ window.useItem = function(index) {
                 if (currentEquip.stats.hp) state.player.maxHp -= currentEquip.stats.hp;
             }
         } else {
-            // Po prostu usuń z plecaka
             state.player.inventory.splice(index, 1);
         }
 
         // Załóż nowy
         state.player.equipment[slot] = item;
+        item.slot = slot; // Przypisz konkretny slot (np. 'ring1' zamiast ogólnego 'ring')
         
-        // Dodaj staty nowego
         if (item.stats) {
             if (item.stats.str) state.player.stats.str += item.stats.str;
             if (item.stats.dex) state.player.stats.dex += item.stats.dex;

@@ -46,6 +46,49 @@ function drawEntitySprite(entity) {
         Math.floor(screenX - 20), 
         Math.floor(screenY + 16 - 55 - bounce)
     );
+
+    // Weapon Animation (ONLY FOR PLAYER)
+    const now = Date.now();
+    const attackDuration = 300; // ms animation time
+    if (entity.type === 'player' && state.player.lastAttackTime && (now - state.player.lastAttackTime < attackDuration)) {
+        const progress = (now - state.player.lastAttackTime) / attackDuration; // 0 to 1
+        
+        ctx.save();
+        // Pivot point at player's hand (approximate)
+        ctx.translate(screenX + 5, screenY - 25 - bounce); 
+        
+        // Rotation: Start high, swing down
+        // 0 -> -45deg, 1 -> +45deg
+        const rotation = -Math.PI/4 + (Math.PI/2 * progress);
+        ctx.rotate(rotation);
+
+        // Draw Sword (Simple Rectangle or Line for now if no sprite, or use existing asset if feasible)
+        // We will assume a default sword look if we can't easily access the equip sprite here effectively
+        // Actually, let's try to draw a simple blade
+        
+        ctx.fillStyle = '#C0C0C0';
+        ctx.strokeStyle = '#2c3e50';
+        ctx.lineWidth = 1;
+        
+        // Blade
+        ctx.beginPath();
+        ctx.moveTo(0, 0);
+        ctx.lineTo(4, -30);
+        ctx.lineTo(8, 0);
+        ctx.lineTo(0, 0);
+        ctx.fill();
+        ctx.stroke();
+
+        // Crossguard
+        ctx.fillStyle = '#8a6d3b';
+        ctx.fillRect(-6, 0, 20, 4);
+
+        // Hilt
+        ctx.fillStyle = '#5c4033';
+        ctx.fillRect(2, 4, 4, 10);
+
+        ctx.restore();
+    }
     
     if (entity.hpBar) {
         const hpPct = entity.hp / entity.maxHp;
