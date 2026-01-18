@@ -1,0 +1,18 @@
+<svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+  <!-- Cień -->
+  <ellipse cx="16" cy="28" rx="8" ry="3" fill="rgba(0,0,0,0.5)" />
+  
+  <!-- Butelka -->
+  <path d="M12 5 L20 5 L20 10 L26 16 L26 26 Q26 30 16 30 Q6 30 6 26 L6 16 L12 10 Z" 
+        fill="#c0392b" stroke="#7f0000" stroke-width="1"/>
+  
+  <!-- Płyn (jaśniejszy środek) -->
+  <path d="M10 16 L22 16 L22 25 Q22 28 16 28 Q10 28 10 25 Z" fill="#e74c3c" opacity="0.8"/>
+  
+  <!-- Korek -->
+  <rect x="11" y="2" width="10" height="4" fill="#8e44ad" stroke="#5e3370" />
+  
+  <!-- Połysk (Szkło) -->
+  <path d="M8 16 Q8 20 10 24" stroke="rgba(255,255,255,0.4)" stroke-width="2" fill="none"/>
+  <ellipse cx="20" cy="12" rx="2" ry="1" fill="rgba(255,255,255,0.6)" />
+</svg>

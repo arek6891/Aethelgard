@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+package-lock.json
+yarn.lock
+
+# System Files
+.DS_Store
+Thumbs.db
+*.log
+
+# Editor Directories
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Build/Dist
+dist/
+build/
+
+# Gemini Agent files
+.gemini/

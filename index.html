@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Aethelgard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <canvas id="gameCanvas"></canvas>
+    <div id="ui-layer">
+        
+        <!-- SYSTEM MENU (Top Right) -->
+        <div id="system-menu">
+            <button class="sys-btn" onclick="toggleSaveWindow()">System</button>
+        </div>
+        
+        <!-- AUTO SAVE INDICATOR -->
+        <div id="autosave-indicator">Zapisano...</div>
+
+        <!-- SAVE/LOAD WINDOW -->
+        <div id="save-load-window" class="ui-panel" style="display: none;">
+            <div class="window-header">
+                <span class="window-title">Zapisz / Wczytaj</span>
+                <span class="close-btn" onclick="toggleSaveWindow()">X</span>
+            </div>
+            <div id="save-slots-list">
+                <!-- Generowane dynamicznie -->
+            </div>
+        </div>
+
+        <!-- GÓRNY HUD -->
+        <div id="top-hud" class="ui-panel">
+            <!-- HP Bar -->
+            <div class="bar-container" id="hp-bar">
+                <div class="bar-fill" style="width: 100%;"></div>
+                <span class="bar-text" id="hp-text">100/100</span>
+            </div>
+
+            <!-- Level Badge (Centrum) -->
+            <div id="level-badge">1</div>
+
+            <!-- MP Bar -->
+            <div class="bar-container" id="mp-bar">
+                <div class="bar-fill" style="width: 50%;"></div>
+                <span class="bar-text" id="mp-text">50/100</span>
+            </div>
+            
+            <!-- Skille -->
+            <div id="skills">
+                <div class="skill-btn"></div>
+                <div class="skill-btn"></div>
+                <div class="skill-btn"></div>
+            </div>
+        </div>
+
+        <!-- PRZYCISK MENU POSTACI (Prawy Dół) -->
+        <div id="btn-character" class="ui-panel" onclick="toggleInventory()">
+            🛡️
+        </div>
+
+        <!-- OKNO EKWIPUNKU I POSTACI -->
+        <div id="inventory-window" class="ui-panel" style="display: none;">
+            <div class="window-header">
+                <span class="window-title">Bohater</span>
+                <span class="close-btn" onclick="toggleInventory()">X</span>
+            </div>
+            
+            <div class="inv-container">
+                <!-- Lewa strona: Postać i Ekwipunek -->
+                <div class="equipment-col">
+                    <div class="char-preview">
+                        <!-- Tu będzie podgląd postaci w przyszłości -->
+                        <div style="font-size: 40px;">🤺</div>
+                    </div>
+                    
+                    <div class="equip-slots">
+                        <div class="equip-row">
+                            <div class="item-slot" data-slot="head" title="Głowa"></div>
+                        </div>
+                        <div class="equip-row">
+                            <div class="item-slot" data-slot="mainhand" title="Broń"></div>
+                            <div class="item-slot" data-slot="chest" title="Zbroja"></div>
+                            <div class="item-slot" data-slot="offhand" title="Tarcza"></div>
+                        </div>
+                        <div class="equip-row">
+                            <div class="item-slot" data-slot="legs" title="Nogi"></div>
+                        </div>
+                    </div>
+
+                    <div class="mini-stats">
+                        <div>STR: <span id="stat-str">10</span></div>
+                        <div>DEX: <span id="stat-dex">10</span></div>
+                        <div>INT: <span id="stat-int">10</span></div>
+                    </div>
+                </div>
+
+                <!-- Prawa strona: Plecak -->
+                <div class="backpack-col">
+                    <div class="backpack-title">Plecak (0/20)</div>
+                    <div class="backpack-grid" id="backpack-grid">
+                        <!-- Generowane przez JS: 20 slotów -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- OKNO LOOTU (Mieszek) -->
+        <div id="loot-window" class="ui-panel" style="display: none;">
+            <div class="window-header">
+                <span class="window-title">Znaleziono:</span>
+                <span class="close-btn" onclick="closeLoot()">X</span>
+            </div>
+            <div class="backpack-grid" id="loot-grid">
+                <!-- Slot na znalezione przedmioty -->
+            </div>
+            <div style="margin-top: 10px; text-align: center;">
+                <button class="action-btn" onclick="takeAllLoot()">Weź wszystko</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script type="module" src="src/main.js"></script>
+    <script>
+        // Funkcje UI wywoływane z HTML
+        function toggleInventory() {
+            const win = document.getElementById('inventory-window');
+            win.style.display = (win.style.display === 'none') ? 'block' : 'none';
+            if (win.style.display === 'block' && window.refreshInventoryUI) {
+                window.refreshInventoryUI();
+            }
+        }
+
+        function toggleSaveWindow() {
+            const win = document.getElementById('save-load-window');
+            win.style.display = (win.style.display === 'none') ? 'block' : 'none';
+            if (win.style.display === 'block' && window.refreshSaveUI) {
+                window.refreshSaveUI();
+            }
+        }
+
+        function closeLoot() {
+            document.getElementById('loot-window').style.display = 'none';
+            if (window.currentLootBag) window.currentLootBag = null;
+        }
+
+        function takeAllLoot() {
+            if (window.takeAllLootLogic) window.takeAllLootLogic();
+        }
+    </script>
+</body>
+</html>

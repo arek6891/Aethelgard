@@ -1,0 +1,13 @@
+<svg width="64" height="64" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="shadow">
+      <feDropShadow dx="2" dy="2" stdDeviation="1" flood-color="#000" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+  <!-- Ostrze -->
+  <path d="M32 10 L36 50 L32 58 L28 50 Z" fill="#C0C0C0" stroke="#404040" stroke-width="1" filter="url(#shadow)"/>
+  <!-- Jelec -->
+  <rect x="20" y="45" width="24" height="6" rx="2" fill="#8B4513" stroke="#404040"/>
+  <!-- Rękojeść -->
+  <rect x="30" y="50" width="4" height="10" fill="#8B4513"/>
+</svg>

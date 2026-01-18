@@ -1,0 +1,26 @@
+[COMPLETED]
+- [x] System renderowania izometrycznego.
+- [x] Kamera śledząca gracza.
+- [x] Proceduralna generacja mapy (40x40).
+- [x] Grafika wektorowa SVG + Rasteryzacja (Cache) dla wydajności.
+- [x] Animacje postaci (chodzenie, podskok).
+- [x] System Wrogów (Szkielety, HP, Śmierć).
+- [x] System Lootu (Mieszki, podnoszenie).
+- [x] UI: HUD, Ekwipunek, Okno Lootu.
+- [x] Konsumpcja przedmiotów (Mikstury leczą).
+- [x] System Zakładania Przedmiotów (Equip) i statystyki.
+- [x] System Dźwięku (Web Audio API).
+- [x] ZAPIS STANU GRY (Save System):
+    - Zapis i odczyt localStorage (mapa, wrogowie, gracz, ekwipunek).
+
+[PRIORITY - HIGH]
+
+
+[ASSETS - DO ROZBUDOWY]
+- [ ] Więcej typów przedmiotów (Broń, Zbroja - grafiki SVG).
+- [ ] Nowe typy wrogów (np. Pająk, Goblin).
+- [ ] Urozmaicenie terenu (drzewa, woda).
+
+[GAMEPLAY - MECHANIKA]
+- [ ] System walki: Dodać animację ataku rycerza (wymachiwanie mieczem) i cooldowny.
+- [ ] Regeneracja wrogów (Respawn).
