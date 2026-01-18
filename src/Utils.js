@@ -23,7 +23,7 @@ export function generateRandomItem() {
         return { 
             name: "Mikstura Zdrowia", 
             type: 'potion', 
-            icon: 'assets/item_potion.svg',
+            icon: 'assets/items/micsture.jpg',
             description: "Odnawia 20 HP"
         };
     }
