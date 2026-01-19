@@ -43,8 +43,8 @@ function drawEntitySprite(entity) {
     }
 
     ctx.drawImage(sprite, 
-        Math.floor(screenX - 20), 
-        Math.floor(screenY + 16 - 55 - bounce)
+        Math.floor(screenX - sprite.width / 2), 
+        Math.floor(screenY + 16 - sprite.height - bounce)
     );
 
     // Weapon Animation (ONLY FOR PLAYER)
@@ -124,8 +124,15 @@ export function drawScene() {
                 // Woda
                 if (sprites.water) ctx.drawImage(sprites.water, Math.floor(screenX - 32), Math.floor(screenY));
             } else if (tileType === 5) {
-                // Schody (na trawie)
-                drawTile(screenX, screenY);
+                // Schody - Rysuj czarną dziurę pod spodem
+                ctx.fillStyle = '#000000';
+                ctx.beginPath();
+                ctx.moveTo(screenX, screenY);
+                ctx.lineTo(screenX + 32, screenY + 16);
+                ctx.lineTo(screenX, screenY + 32);
+                ctx.lineTo(screenX - 32, screenY + 16);
+                ctx.fill();
+                
                 if (sprites.stairs) ctx.drawImage(sprites.stairs, Math.floor(screenX - 32), Math.floor(screenY));
             } else {
                 // Trawa (pod drzewami i ścianami też rysujemy trawę)

@@ -61,10 +61,10 @@ export function loadAssets() {
         images.spider.src = 'assets/mobs/spider.svg';
         images.spider.onload = checkLoad; images.spider.onerror = onError;
 
-        images.uytek.src = 'assets/mobs/uytek.svg';
+        images.uytek.src = 'assets/mobs/Uytek.jpg';
         images.uytek.onload = checkLoad; images.uytek.onerror = onError;
 
-        images.eloryba3000.src = 'assets/mobs/eloryba3000.svg';
+        images.eloryba3000.src = 'assets/mobs/EloRyba3000.jpg';
         images.eloryba3000.onload = checkLoad; images.eloryba3000.onerror = onError;
 
         images.potion.src = 'assets/item_potion.svg';

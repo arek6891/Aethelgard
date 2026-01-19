@@ -71,10 +71,10 @@ export function initInput() {
 
         // 3. Ruch
         if (tX >= 0 && tX < config.mapSize && tY >= 0 && tY < config.mapSize) {
-            if (state.mapData[tX][tY] === 0) {
+            // Ruch dozwolony na trawę (0) LUB schody (5)
+            if (state.mapData[tX][tY] === 0 || state.mapData[tX][tY] === 5) {
                 state.player.targetX = tX;
                 state.player.targetY = tY;
-                // Opcjonalnie dźwięk kroku, ale w pętli update lepiej
             }
         }
     });

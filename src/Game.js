@@ -79,19 +79,21 @@ function generateLevel(levelNum) {
     state.player.targetY = 20;
 
     // 6. Wyjście (Schody - Typ 5)
-    let stairsPlaced = false;
-    while(!stairsPlaced) {
-        const sx = Math.floor(Math.random() * (config.mapSize - 4)) + 2;
-        const sy = Math.floor(Math.random() * (config.mapSize - 4)) + 2;
-        // Musi być daleko od środka (bezpiecznej strefy)
-        const distFromCenter = Math.sqrt((sx-20)**2 + (sy-20)**2);
-        
-        if(state.mapData[sx][sy] === 0 && distFromCenter > 10) {
-            state.mapData[sx][sy] = 5;
-            stairsPlaced = true;
-            console.log(`Schody umieszczone na [${sx}, ${sy}]`);
+    // Wymuszona pozycja w rogu mapy (koniec poziomu)
+    const sx = config.mapSize - 4;
+    const sy = config.mapSize - 4;
+    
+    // Wyczyść teren wokół schodów, żeby były widoczne i dostępne
+    for(let i = sx - 1; i <= sx + 1; i++) {
+        for(let j = sy - 1; j <= sy + 1; j++) {
+            if (state.mapData[i] && state.mapData[i][j] !== undefined) {
+                state.mapData[i][j] = 0; // Trawa
+            }
         }
     }
+    
+    state.mapData[sx][sy] = 5; // Schody
+    console.log(`Schody umieszczone na stałe: [${sx}, ${sy}]`);
 
     // 7a. Spawn Unikatowych Mobów (Bosses/Rares)
     // Uytek (30% szansy)
