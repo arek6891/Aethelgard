@@ -1,0 +1,8 @@
+<svg width="64" height="32" viewBox="0 0 64 32" xmlns="http://www.w3.org/2000/svg">
+  <!-- Isometric Tile Shape -->
+  <path d="M0 16 L32 0 L64 16 L32 32 Z" fill="#01579b" stroke="#023055" stroke-width="1"/>
+  <!-- Waves -->
+  <path d="M16 16 Q24 12 32 16 T48 16" stroke="#4fc3f7" stroke-width="1" fill="none" opacity="0.5"/>
+  <path d="M20 20 Q28 16 36 20" stroke="#4fc3f7" stroke-width="1" fill="none" opacity="0.3"/>
+  <path d="M10 12 Q18 8 26 12" stroke="#4fc3f7" stroke-width="1" fill="none" opacity="0.3"/>
+</svg>

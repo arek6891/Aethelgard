@@ -107,7 +107,7 @@ export function drawScene() {
     const margin = 200;
     const renderList = [];
 
-    // 1. Rysuj PODŁOGĘ
+    // 1. Rysuj PODŁOGĘ i zbieraj obiekty statyczne
     for (let x = 0; x < config.mapSize; x++) {
         for (let y = 0; y < config.mapSize; y++) {
             const isoPos = cartesianToIso(x, y);
@@ -117,10 +117,37 @@ export function drawScene() {
             if (screenX < -margin || screenX > canvas.width + margin ||
                 screenY < -margin || screenY > canvas.height + margin) continue;
 
-            if (state.mapData[x][y] === 0) {
-                drawTile(screenX, screenY);
+            const tileType = state.mapData[x][y];
+
+            // A. Rysowanie Podłogi
+            if (tileType === 2) {
+                // Woda
+                if (sprites.water) ctx.drawImage(sprites.water, Math.floor(screenX - 32), Math.floor(screenY));
             } else {
-                drawBlock(screenX, screenY);
+                // Trawa (pod drzewami i ścianami też rysujemy trawę)
+                drawTile(screenX, screenY);
+            }
+
+            // B. Zbieranie Obiektów Statycznych do Z-Sortingu
+            // 1=Wall, 3=Tree, 4=Rock
+            if (tileType === 1 || tileType === 3 || tileType === 4) {
+                let sprite = null;
+                let yOffset = 0;
+
+                if (tileType === 1) { sprite = sprites.wall; yOffset = 50; }
+                else if (tileType === 3) { sprite = sprites.tree; yOffset = 64; }
+                else if (tileType === 4) { sprite = sprites.rock; yOffset = 32; }
+
+                if (sprite) {
+                    renderList.push({
+                        sx: screenX,
+                        sy: screenY,
+                        ySort: screenY,
+                        sprite: sprite,
+                        type: 'static',
+                        yOffset: yOffset
+                    });
+                }
             }
         }
     }
@@ -163,7 +190,18 @@ export function drawScene() {
 
     // 3. Sortuj i rysuj
     renderList.sort((a, b) => a.ySort - b.ySort);
-    renderList.forEach(entity => drawEntitySprite(entity));
+    
+    renderList.forEach(entity => {
+        if (entity.type === 'static') {
+            // Rysowanie statyczne (wycentrowane X, offset Y)
+            ctx.drawImage(entity.sprite, 
+                Math.floor(entity.sx - entity.sprite.width / 2), 
+                Math.floor(entity.sy - entity.yOffset)
+            );
+        } else {
+            drawEntitySprite(entity);
+        }
+    });
     
     // Vignette
     const gradient = ctx.createRadialGradient(
