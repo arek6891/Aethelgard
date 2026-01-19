@@ -1,34 +1,34 @@
 export const state = {
-    mapData: [],
-    enemies: [],
-    lootBags: [],
-    currentLootBag: null, // Który worek jest otwarty?
-    
     player: {
-        x: 20, y: 20,
-        targetX: 20, targetY: 20,
+        x: 20,
+        y: 20,
+        targetX: 20,
+        targetY: 20,
         speed: 0.1,
-        attackCooldown: 500, // ms
+        hp: 100,
+        maxHp: 100,
+        mp: 50,
+        maxMp: 50,
         lastAttackTime: 0,
-        stats: { str: 15, dex: 12, int: 8 },
-        hp: 100, maxHp: 120,
-        mp: 40, maxMp: 60,
-        inventory: [], // Tablica przedmiotów [ {id, type, icon} ]
+        attackCooldown: 600,
+        inventory: [], // Looted items in bag
+        backpackSize: 20,
         equipment: {
             head: null,
-            shoulders: null,
-            amulet: null,
             chest: null,
-            gloves: null,
-            belt: null,
-            legs: null,
-            boots: null,
-            ring1: null,
-            ring2: null,
-            talisman: null,
             mainhand: null,
-            offhand: null
+            offhand: null,
+            legs: null
         },
-        backpackSize: 20
-    }
+        stats: {
+            str: 10,
+            dex: 10,
+            int: 10
+        }
+    },
+    mapData: [], // 2D array [x][y]
+    enemies: [],
+    lootBags: [],
+    currentLootBag: null,
+    level: 1
 };

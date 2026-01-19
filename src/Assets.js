@@ -2,14 +2,16 @@ export const images = {
     grass: new Image(), wall: new Image(),
     player: new Image(), skeleton: new Image(),
     potion: new Image(), sack: new Image(),
-    tree: new Image(), rock: new Image(), water: new Image()
+    tree: new Image(), rock: new Image(), water: new Image(),
+    stairs: new Image()
 };
 
 export const sprites = {
     grass: null, wall: null,
     player: null, skeleton: null,
     potion: null, sack: null,
-    tree: null, rock: null, water: null
+    tree: null, rock: null, water: null,
+    stairs: null
 };
 
 function prerenderImage(img, width, height) {
@@ -23,7 +25,7 @@ function prerenderImage(img, width, height) {
 
 export function loadAssets() {
     return new Promise((resolve, reject) => {
-        const totalAssets = 9;
+        const totalAssets = 10;
         let assetsLoaded = 0;
 
         function checkLoad() {
@@ -68,6 +70,9 @@ export function loadAssets() {
 
         images.water.src = 'assets/tile_water.svg';
         images.water.onload = checkLoad; images.water.onerror = onError;
+
+        images.stairs.src = 'assets/tile_stairs.svg';
+        images.stairs.onload = checkLoad; images.stairs.onerror = onError;
     });
 }
 
@@ -81,4 +86,5 @@ function processSprites() {
     try { sprites.tree = prerenderImage(images.tree, 64, 96); } catch(e) { console.warn("Tree error", e); }
     try { sprites.rock = prerenderImage(images.rock, 64, 64); } catch(e) { console.warn("Rock error", e); }
     try { sprites.water = prerenderImage(images.water, 64, 32); } catch(e) { console.warn("Water error", e); }
+    try { sprites.stairs = prerenderImage(images.stairs, 64, 32); } catch(e) { console.warn("Stairs error", e); }
 }

@@ -123,6 +123,10 @@ export function drawScene() {
             if (tileType === 2) {
                 // Woda
                 if (sprites.water) ctx.drawImage(sprites.water, Math.floor(screenX - 32), Math.floor(screenY));
+            } else if (tileType === 5) {
+                // Schody (na trawie)
+                drawTile(screenX, screenY);
+                if (sprites.stairs) ctx.drawImage(sprites.stairs, Math.floor(screenX - 32), Math.floor(screenY));
             } else {
                 // Trawa (pod drzewami i ścianami też rysujemy trawę)
                 drawTile(screenX, screenY);
