@@ -6,15 +6,6 @@ import { initInput } from './Input.js';
 
 const canvas = document.getElementById('gameCanvas');
 
-// Inicjalizacja świata
-import { config } from './Config.js';
-import { state } from './GameState.js';
-import { cartesianToIso } from './Utils.js';
-import { drawScene, resize } from './Renderer.js';
-import { initInput } from './Input.js';
-
-const canvas = document.getElementById('gameCanvas');
-
 function generateLevel(levelNum) {
     console.log(`Generowanie Poziomu ${levelNum}...`);
     state.mapData = [];
@@ -102,6 +93,46 @@ function generateLevel(levelNum) {
         }
     }
 
+    // 7a. Spawn Unikatowych Mobów (Bosses/Rares)
+    // Uytek (30% szansy)
+    if (Math.random() < 0.3) {
+        let placed = false;
+        while(!placed) {
+            const ux = Math.floor(Math.random() * config.mapSize);
+            const uy = Math.floor(Math.random() * config.mapSize);
+            if (state.mapData[ux][uy] === 0 && (ux < 15 || ux > 25 || uy < 15 || uy > 25)) {
+                state.enemies.push({
+                    x: ux, y: uy,
+                    type: 'uytek',
+                    hp: 15 + (levelNum * 2), // Słaby, ale irytujący
+                    maxHp: 15 + (levelNum * 2),
+                    name: "Uytek"
+                });
+                placed = true;
+                console.log("Uytek pojawił się na mapie!");
+            }
+        }
+    }
+    // Eloryba3000 (20% szansy)
+    if (Math.random() < 0.2) {
+        let placed = false;
+        while(!placed) {
+            const ex = Math.floor(Math.random() * config.mapSize);
+            const ey = Math.floor(Math.random() * config.mapSize);
+            if (state.mapData[ex][ey] === 0 && (ex < 15 || ex > 25 || ey < 15 || ey > 25)) {
+                state.enemies.push({
+                    x: ex, y: ey,
+                    type: 'eloryba3000',
+                    hp: 60 + (levelNum * 10), // Boss Tank
+                    maxHp: 60 + (levelNum * 10),
+                    name: "Eloryba3000"
+                });
+                placed = true;
+                console.log("Eloryba3000 nadpływa!");
+            }
+        }
+    }
+
     // 7. Spawn Wrogów (Skalowanie z poziomem)
     let enemiesCount = 0;
     const maxEnemies = 20 + (levelNum * 5);
@@ -112,11 +143,17 @@ function generateLevel(levelNum) {
         const isSafeZone = (ex > 15 && ex < 25 && ey > 15 && ey < 25);
         
         if (state.mapData[ex][ey] === 0 && !isSafeZone) {
+            const isSpider = Math.random() < 0.4;
+            const baseHp = isSpider ? 20 : 30;
+            const enemyType = isSpider ? 'spider' : 'skeleton';
+            const enemyName = isSpider ? 'Pająk' : 'Szkielet';
+
             state.enemies.push({
                 x: ex, y: ey,
-                hp: 30 + (levelNum * 5), // Trudniejsi
-                maxHp: 30 + (levelNum * 5),
-                name: "Szkielet"
+                type: enemyType,
+                hp: baseHp + (levelNum * 5),
+                maxHp: baseHp + (levelNum * 5),
+                name: enemyName
             });
             enemiesCount++;
         }
@@ -174,37 +211,6 @@ function update() {
             // alert(`Schodzisz głębiej... Poziom ${state.level}`);
             generateLevel(state.level);
         }
-    }
-
-    // Kamera
-    const playerIso = cartesianToIso(state.player.x, state.player.y);
-    config.offsetX = canvas.width / 2 - playerIso.x;
-    config.offsetY = canvas.height / 2 - playerIso.y;
-
-    // UI Pasków (HP/MP)
-    const hpPercent = (state.player.hp / state.player.maxHp) * 100;
-    const hpBar = document.querySelector('#hp-bar .bar-fill');
-    if(hpBar) hpBar.style.width = `${hpPercent}%`;
-    const hpText = document.getElementById('hp-text');
-    if(hpText) hpText.innerText = `${Math.floor(state.player.hp)}/${state.player.maxHp}`;
-    
-    // UI Level Info (tymczasowo w tytule strony lub console)
-    // document.title = `Aethelgard - Level ${state.level}`;
-}
-
-
-function update() {
-    // Ruch gracza
-    const dx = state.player.targetX - state.player.x;
-    const dy = state.player.targetY - state.player.y;
-    const dist = Math.sqrt(dx*dx + dy*dy);
-    
-    if (dist > state.player.speed) {
-        state.player.x += (dx / dist) * state.player.speed;
-        state.player.y += (dy / dist) * state.player.speed;
-    } else {
-        state.player.x = state.player.targetX;
-        state.player.y = state.player.targetY;
     }
 
     // Kamera

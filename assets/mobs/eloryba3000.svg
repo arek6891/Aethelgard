@@ -1,0 +1,21 @@
+<svg width="60" height="40" viewBox="0 0 60 40" xmlns="http://www.w3.org/2000/svg">
+  <!-- Cień (lewituje) -->
+  <ellipse cx="30" cy="38" rx="15" ry="3" fill="rgba(0,0,0,0.2)"/>
+
+  <!-- Ogon (Mechaniczny) -->
+  <path d="M5 20 L15 10 L15 30 Z" fill="#b0bec5" stroke="#546e7a"/>
+  
+  <!-- Ciało (Ryba) -->
+  <ellipse cx="35" cy="20" rx="20" ry="12" fill="#607d8b" stroke="#37474f" stroke-width="2"/>
+  
+  <!-- Płetwy boczne -->
+  <path d="M30 20 L20 28 L35 25" fill="#cfd8dc" stroke="#546e7a"/>
+
+  <!-- Cyber oko (Wizjer) -->
+  <circle cx="45" cy="16" r="4" fill="#ff0000"/>
+  <path d="M45 16 L60 16" stroke="#ff0000" stroke-width="1" opacity="0.5"/> <!-- Laser -->
+
+  <!-- Metalowe Płyty -->
+  <path d="M35 10 L35 30" stroke="#37474f" stroke-width="1"/>
+  <rect x="25" y="15" width="5" height="10" fill="#455a64"/>
+</svg>

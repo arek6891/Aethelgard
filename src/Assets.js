@@ -1,6 +1,7 @@
 export const images = {
     grass: new Image(), wall: new Image(),
-    player: new Image(), skeleton: new Image(),
+    player: new Image(), skeleton: new Image(), spider: new Image(),
+    uytek: new Image(), eloryba3000: new Image(),
     potion: new Image(), sack: new Image(),
     tree: new Image(), rock: new Image(), water: new Image(),
     stairs: new Image()
@@ -8,7 +9,8 @@ export const images = {
 
 export const sprites = {
     grass: null, wall: null,
-    player: null, skeleton: null,
+    player: null, skeleton: null, spider: null,
+    uytek: null, eloryba3000: null,
     potion: null, sack: null,
     tree: null, rock: null, water: null,
     stairs: null
@@ -25,7 +27,7 @@ function prerenderImage(img, width, height) {
 
 export function loadAssets() {
     return new Promise((resolve, reject) => {
-        const totalAssets = 10;
+        const totalAssets = 13;
         let assetsLoaded = 0;
 
         function checkLoad() {
@@ -39,7 +41,6 @@ export function loadAssets() {
 
         function onError(e) {
             console.error("Błąd ładowania grafiki:", e.target.src);
-            // Mimo błędu, liczmy to jako załadowane, żeby gra ruszyła
             checkLoad();
         }
 
@@ -53,8 +54,18 @@ export function loadAssets() {
         images.player.src = 'assets/char_knight.svg';
         images.player.onload = checkLoad; images.player.onerror = onError;
 
-        images.skeleton.src = 'assets/char_skeleton.svg';
+        // MOBS
+        images.skeleton.src = 'assets/mobs/skeleton.svg';
         images.skeleton.onload = checkLoad; images.skeleton.onerror = onError;
+
+        images.spider.src = 'assets/mobs/spider.svg';
+        images.spider.onload = checkLoad; images.spider.onerror = onError;
+
+        images.uytek.src = 'assets/mobs/uytek.svg';
+        images.uytek.onload = checkLoad; images.uytek.onerror = onError;
+
+        images.eloryba3000.src = 'assets/mobs/eloryba3000.svg';
+        images.eloryba3000.onload = checkLoad; images.eloryba3000.onerror = onError;
 
         images.potion.src = 'assets/item_potion.svg';
         images.potion.onload = checkLoad; images.potion.onerror = onError;
@@ -81,6 +92,9 @@ function processSprites() {
     try { sprites.wall = prerenderImage(images.wall, 64, 82); } catch(e) { console.warn("Wall error", e); }
     try { sprites.player = prerenderImage(images.player, 40, 60); } catch(e) { console.warn("Player error", e); }
     try { sprites.skeleton = prerenderImage(images.skeleton, 40, 60); } catch(e) { console.warn("Skeleton error", e); }
+    try { sprites.spider = prerenderImage(images.spider, 40, 40); } catch(e) { console.warn("Spider error", e); }
+    try { sprites.uytek = prerenderImage(images.uytek, 40, 40); } catch(e) { console.warn("Uytek error", e); }
+    try { sprites.eloryba3000 = prerenderImage(images.eloryba3000, 60, 40); } catch(e) { console.warn("Eloryba error", e); }
     try { sprites.potion = prerenderImage(images.potion, 32, 32); } catch(e) { console.warn("Potion error", e); }
     try { sprites.sack = prerenderImage(images.sack, 32, 32); } catch(e) { console.warn("Sack error", e); }
     try { sprites.tree = prerenderImage(images.tree, 64, 96); } catch(e) { console.warn("Tree error", e); }

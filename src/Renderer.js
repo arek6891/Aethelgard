@@ -169,11 +169,16 @@ export function drawScene() {
 
     state.enemies.forEach(e => {
         const pos = cartesianToIso(e.x, e.y);
+        let sprite = sprites.skeleton;
+        if (e.type === 'spider') sprite = sprites.spider;
+        else if (e.type === 'uytek') sprite = sprites.uytek;
+        else if (e.type === 'eloryba3000') sprite = sprites.eloryba3000;
+
         renderList.push({
             sx: config.offsetX + pos.x,
             sy: config.offsetY + pos.y,
             ySort: config.offsetY + pos.y,
-            sprite: sprites.skeleton,
+            sprite: sprite,
             isMoving: false,
             type: 'enemy',
             hp: e.hp, maxHp: e.maxHp, hpBar: true
