@@ -1,35 +1,39 @@
 # Kontekst Techniczny Projektu: Aethelgard
 
 ## Status Projektu
-**Faza:** Alpha / Prototyp Mechaniki (v0.3)
-**Ostatnia aktualizacja:** 18.01.2026
+**Faza:** Alpha / Infinite World (v0.4)
+**Ostatnia aktualizacja:** 19.01.2026
 
 ## Kluczowe Rozwiązania Techniczne (DLA AI - CZYTAJ TO!)
 
-### 1. System Graficzny (SVG Rasterization)
+### 1. System Graficzny (SVG & Hybrid)
 **WAŻNE:** Nie używamy bezpośrednio `ctx.drawImage(svgElement)`.
-- Przeglądarki dławią się przy renderowaniu wektorów w pętli 60 FPS.
-- **Rozwiązanie:** Używamy patternu `prerenderImage`. Przy starcie gry (`onAssetLoad`) każdy plik SVG jest renderowany raz na niewidoczne płótno (`canvas`), a w pętli gry rysujemy te bitmapy (`sprites.*`).
-- **Nie zmieniaj tego** na raw SVG drawing, bo gra straci płynność.
+- **Pre-rendering:** Używamy patternu `prerenderImage`. Przy starcie gry (`onAssetLoad`) każdy plik jest renderowany raz na niewidoczne płótno.
+- **Obsługa JPG:** Dodano obsługę plików JPG dla unikalnych assetów (rysunki dzieci: Uytek, Eloryba3000).
+- **Z-Sorting:** Funkcja `drawScene` sortuje teraz wszystkie obiekty (zarówno moby, jak i statyczne drzewa/skały/ściany) według osi Y, co pozwala na poprawne "chowanie się" za elementami otoczenia.
 
 ### 2. Audio System (Synthesized)
-- Nie używamy plików MP3/WAV (brak w repozytorium).
-- **Rozwiązanie:** Moduł `src/Audio.js` generuje dźwięki (SFX) w locie za pomocą **Web Audio API**.
-- Wymaga interakcji użytkownika (kliknięcia) do aktywacji Contextu.
+- Nie używamy plików MP3/WAV.
+- Moduł `src/Audio.js` generuje dźwięki (SFX) w locie za pomocą **Web Audio API**.
 
 ### 3. Equipment & Stats System
 - Gracz ma sloty: head, chest, mainhand, offhand, legs.
 - Przedmioty w `state.player.equipment` modyfikują statystyki (STR, DEX, INT, HP) w czasie rzeczywistym.
-- Logika zamiany przedmiotów (swap) zaimplementowana w `src/UI.js`.
 
-### 2. Renderowanie Sceny (Z-Sorting)
-- Nie rysujemy obiektów wewnątrz pętli kafelków (`for x for y`).
-- **Rozwiązanie:** Funkcja `drawScene` działa dwuetapowo:
-    1. Rysuje podłogę i ściany (tło).
-    2. Zbiera wszystkie ruchome obiekty (Gracz, Wrogowie, Loot) do listy `renderList`.
-    3. Sortuje listę według współrzędnej Y (`ySort`).
-    4. Rysuje obiekty od najdalszego do najbliższego.
-- To zapobiega błędom przenikania i "sztywności" animacji.
+### 4. Level Generation & Progression
+- **Nieskończone Poziomy:** Gra generuje nową mapę proceduralnie przy każdym wejściu na schody (`tile_stairs`).
+- **Skalowanie:** Z każdym poziomem (`state.level`) wrogowie mają więcej HP i jest ich więcej.
+- **Unikalne Moby:** System spawnuje rzadkie potwory (Uytek, Eloryba3000) z określoną szansą (30%/20%) w losowych miejscach mapy.
+
+### 5. Renderowanie Sceny (Layering)
+- 1. Podłoga (Trawa/Woda).
+- 2. "Ciemna dziura" pod schodami.
+- 3. Obiekty sortowane Y (Ściany, Drzewa, Skały, Gracz, Wrogowie, Loot).
+- 4. Efekt winiety.
+
+## Struktura Danych
+- `mapData[x][y]`: 0=Trawa, 1=Ściana, 2=Woda, 3=Drzewo, 4=Skała, 5=Schody.
+- `state.level`: Aktualny numer poziomu (zaczyna od 1).
 
 ### 3. Obsługa Błędów (CORS)
 - Dodano `onerror` do ładowania obrazków. Jeśli gra jest uruchamiana lokalnie (file://), SVG mogą się nie załadować.

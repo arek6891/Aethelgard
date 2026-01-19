@@ -10,17 +10,18 @@
 - [x] Konsumpcja przedmiotów (Mikstury leczą).
 - [x] System Zakładania Przedmiotów (Equip) i statystyki.
 - [x] System Dźwięku (Web Audio API).
-- [x] ZAPIS STANU GRY (Save System):
-    - Zapis i odczyt localStorage (mapa, wrogowie, gracz, ekwipunek).
+- [x] ZAPIS STANU GRY (Save System).
+- [x] Urozmaicenie terenu (drzewa, woda, skały).
+- [x] Nowe typy wrogów (Pająk, Uytek, Eloryba3000).
+- [x] System Poziomów (Schody, Nieskończona generacja).
+- [x] Obsługa unikalnych grafik JPG (rysunki dzieci).
 
 [PRIORITY - HIGH]
-
+- [ ] Drop z Bossów (Unikalne przedmioty z Uyteka/Eloryby).
 
 [ASSETS - DO ROZBUDOWY]
 - [ ] Więcej typów przedmiotów (Broń, Zbroja - grafiki SVG).
-- [ ] Nowe typy wrogów (np. Pająk, Goblin).
-- [ ] Urozmaicenie terenu (drzewa, woda).
 
 [GAMEPLAY - MECHANIKA]
 - [x] System walki: Dodać animację ataku rycerza (wymachiwanie mieczem) i cooldowny.
-- [ ] Regeneracja wrogów (Respawn).
+- [ ] Regeneracja wrogów (Respawn) - (zastąpione przez generację nowych poziomów).
