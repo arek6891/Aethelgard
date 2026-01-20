@@ -32,5 +32,6 @@ Gra RPG akcji (ARPG) typu "Nieskończony Dungeon Crawler" w rzucie izometrycznym
 
 ## 7. Struktura Świata
 - **Generacja:** Każdy poziom jest generowany proceduralnie (losowy układ ścian, wody, drzew).
+- **Biomy:** System obsługuje różne biomy (np. Wymiar Uytek z 30% szansą na wystąpienie, charakteryzujący się unikalną kolorystyką i armią specyficznych wrogów).
 - **Progresja:** Aby przejść dalej, gracz musi znaleźć Schody (zazwyczaj w rogu mapy).
 - **Trudność:** Z każdym poziomem wrogowie (Szkielety, Pająki, Bossowie) mają więcej HP i zadają większe obrażenia.

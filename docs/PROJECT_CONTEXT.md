@@ -9,21 +9,15 @@
 ### 1. System Graficzny (SVG & Hybrid)
 **WAŻNE:** Nie używamy bezpośrednio `ctx.drawImage(svgElement)`.
 - **Pre-rendering:** Używamy patternu `prerenderImage`. Przy starcie gry (`onAssetLoad`) każdy plik jest renderowany raz na niewidoczne płótno.
+- **Warianty Biomów (Optymalizacja):** Dla specjalnych biomów (np. Uytek) generujemy "pokolorowane" wersje assetów (trawa, drzewa, skały) przy użyciu filtrów CSS w `prerenderImage`. Zapobiega to spadkom wydajności (60 FPS zachowane), które występowałyby przy nakładaniu filtrów w czasie rzeczywistym.
 - **Obsługa JPG:** Dodano obsługę plików JPG dla unikalnych assetów (rysunki dzieci: Uytek, Eloryba3000).
 - **Z-Sorting:** Funkcja `drawScene` sortuje teraz wszystkie obiekty (zarówno moby, jak i statyczne drzewa/skały/ściany) według osi Y, co pozwala na poprawne "chowanie się" za elementami otoczenia.
 
-### 2. Audio System (Synthesized)
-- Nie używamy plików MP3/WAV.
-- Moduł `src/Audio.js` generuje dźwięki (SFX) w locie za pomocą **Web Audio API**.
-
-### 3. Equipment & Stats System
-- Gracz ma sloty: head, chest, mainhand, offhand, legs.
-- Przedmioty w `state.player.equipment` modyfikują statystyki (STR, DEX, INT, HP) w czasie rzeczywistym.
-
 ### 4. Level Generation & Progression
 - **Nieskończone Poziomy:** Gra generuje nową mapę proceduralnie przy każdym wejściu na schody (`tile_stairs`).
+- **System Biomów:** Przy generacji poziomu losowany jest biom (np. `state.biome = 'uytek'`). Wpływa to na paletę barw otoczenia oraz typy spawnowanych przeciwników.
 - **Skalowanie:** Z każdym poziomem (`state.level`) wrogowie mają więcej HP i jest ich więcej.
-- **Unikalne Moby:** System spawnuje rzadkie potwory (Uytek, Eloryba3000) z określoną szansą (30%/20%) w losowych miejscach mapy.
+- **Unikalne Moby:** System spawnuje rzadkie potwory (Uytek, Eloryba3000) z określoną szansą (30%/20%) w losowych miejscach mapy. W biomie Uytek armia Uyteków staje się standardowym przeciwnikiem.
 
 ### 5. Renderowanie Sceny (Layering)
 - 1. Podłoga (Trawa/Woda).

@@ -13,14 +13,23 @@ export const sprites = {
     uytek: null, eloryba3000: null,
     potion: null, sack: null,
     tree: null, rock: null, water: null,
-    stairs: null
+    stairs: null,
+    // Uytek Biome Variants
+    grassUytek: null,
+    treeUytek: null,
+    rockUytek: null
 };
 
-function prerenderImage(img, width, height) {
+function prerenderImage(img, width, height, filter = null) {
     const buffer = document.createElement('canvas');
     buffer.width = width;
     buffer.height = height;
     const bCtx = buffer.getContext('2d');
+    
+    if (filter) {
+        bCtx.filter = filter;
+    }
+    
     bCtx.drawImage(img, 0, 0, width, height);
     return buffer;
 }
@@ -88,7 +97,12 @@ export function loadAssets() {
 }
 
 function processSprites() {
-    try { sprites.grass = prerenderImage(images.grass, 64, 32); } catch(e) { console.warn("Grass error", e); }
+    try { 
+        sprites.grass = prerenderImage(images.grass, 64, 32); 
+        // Pre-render Uytek Variants (Filters from Game Design)
+        sprites.grassUytek = prerenderImage(images.grass, 64, 32, 'hue-rotate(180deg) saturate(1.5) brightness(0.8)');
+    } catch(e) { console.warn("Grass error", e); }
+
     try { sprites.wall = prerenderImage(images.wall, 64, 82); } catch(e) { console.warn("Wall error", e); }
     try { sprites.player = prerenderImage(images.player, 40, 60); } catch(e) { console.warn("Player error", e); }
     try { sprites.skeleton = prerenderImage(images.skeleton, 40, 60); } catch(e) { console.warn("Skeleton error", e); }
@@ -97,8 +111,17 @@ function processSprites() {
     try { sprites.eloryba3000 = prerenderImage(images.eloryba3000, 60, 40); } catch(e) { console.warn("Eloryba error", e); }
     try { sprites.potion = prerenderImage(images.potion, 32, 32); } catch(e) { console.warn("Potion error", e); }
     try { sprites.sack = prerenderImage(images.sack, 32, 32); } catch(e) { console.warn("Sack error", e); }
-    try { sprites.tree = prerenderImage(images.tree, 64, 96); } catch(e) { console.warn("Tree error", e); }
-    try { sprites.rock = prerenderImage(images.rock, 64, 64); } catch(e) { console.warn("Rock error", e); }
+    
+    try { 
+        sprites.tree = prerenderImage(images.tree, 64, 96); 
+        sprites.treeUytek = prerenderImage(images.tree, 64, 96, 'hue-rotate(40deg) brightness(1.2) saturate(1.5)');
+    } catch(e) { console.warn("Tree error", e); }
+
+    try { 
+        sprites.rock = prerenderImage(images.rock, 64, 64); 
+        sprites.rockUytek = prerenderImage(images.rock, 64, 64, 'sepia(1) saturate(3) hue-rotate(-30deg)');
+    } catch(e) { console.warn("Rock error", e); }
+
     try { sprites.water = prerenderImage(images.water, 64, 32); } catch(e) { console.warn("Water error", e); }
     try { sprites.stairs = prerenderImage(images.stairs, 64, 32); } catch(e) { console.warn("Stairs error", e); }
 }

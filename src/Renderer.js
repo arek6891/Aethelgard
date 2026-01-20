@@ -13,7 +13,11 @@ export function resize() {
 }
 
 function drawTile(screenX, screenY) {
-    if (sprites.grass) ctx.drawImage(sprites.grass, Math.floor(screenX - 32), Math.floor(screenY));
+    let sprite = sprites.grass;
+    if (state.biome === 'uytek' && sprites.grassUytek) {
+        sprite = sprites.grassUytek;
+    }
+    if (sprite) ctx.drawImage(sprite, Math.floor(screenX - 32), Math.floor(screenY));
 }
 function drawBlock(screenX, screenY) {
     if (sprites.wall) ctx.drawImage(sprites.wall, Math.floor(screenX - 32), Math.floor(screenY - 50));
@@ -145,9 +149,18 @@ export function drawScene() {
                 let sprite = null;
                 let yOffset = 0;
 
-                if (tileType === 1) { sprite = sprites.wall; yOffset = 50; }
-                else if (tileType === 3) { sprite = sprites.tree; yOffset = 64; }
-                else if (tileType === 4) { sprite = sprites.rock; yOffset = 32; }
+                if (tileType === 1) { 
+                    sprite = sprites.wall; 
+                    yOffset = 50; 
+                }
+                else if (tileType === 3) { 
+                    sprite = (state.biome === 'uytek' && sprites.treeUytek) ? sprites.treeUytek : sprites.tree; 
+                    yOffset = 64; 
+                }
+                else if (tileType === 4) { 
+                    sprite = (state.biome === 'uytek' && sprites.rockUytek) ? sprites.rockUytek : sprites.rock; 
+                    yOffset = 32; 
+                }
 
                 if (sprite) {
                     renderList.push({

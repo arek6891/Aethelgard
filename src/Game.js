@@ -13,6 +13,11 @@ function generateLevel(levelNum) {
     state.lootBags = [];
     state.currentLootBag = null;
     document.getElementById('loot-window').style.display = 'none';
+
+    // 0. Ustal Biom
+    // 30% szans na Biom Uytek
+    state.biome = Math.random() < 0.3 ? 'uytek' : 'normal';
+    console.log(`Generowanie Poziomu ${levelNum} [Biom: ${state.biome}]`);
     
     // 1. Inicjalizacja pustej mapy (Trawa)
     for (let x = 0; x < config.mapSize; x++) {
@@ -145,10 +150,21 @@ function generateLevel(levelNum) {
         const isSafeZone = (ex > 15 && ex < 25 && ey > 15 && ey < 25);
         
         if (state.mapData[ex][ey] === 0 && !isSafeZone) {
-            const isSpider = Math.random() < 0.4;
-            const baseHp = isSpider ? 20 : 30;
-            const enemyType = isSpider ? 'spider' : 'skeleton';
-            const enemyName = isSpider ? 'Pająk' : 'Szkielet';
+            let enemyType, baseHp, enemyName;
+
+            if (state.biome === 'uytek') {
+                // W Biomie Uytek 90% szans na Uyteka, 10% na Elorybę (jeśli rzadki) lub Pająka
+                const isRare = Math.random() < 0.1;
+                enemyType = isRare ? 'spider' : 'uytek';
+                enemyName = isRare ? 'Pająk' : 'Minion Uytek';
+                baseHp = isRare ? 20 : 15;
+            } else {
+                // Normalny Biom
+                const isSpider = Math.random() < 0.4;
+                baseHp = isSpider ? 20 : 30;
+                enemyType = isSpider ? 'spider' : 'skeleton';
+                enemyName = isSpider ? 'Pająk' : 'Szkielet';
+            }
 
             state.enemies.push({
                 x: ex, y: ey,
