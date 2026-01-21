@@ -50,3 +50,28 @@ export function generateRandomItem() {
         };
     }
 }
+
+export function generateBossItem(bossType) {
+    if (bossType === 'uytek') {
+        return {
+            name: "Włócznia Uyteka",
+            type: 'equipment',
+            slot: 'mainhand',
+            icon: 'assets/item_sword.svg',
+            stats: { str: 15, dex: 5 }, // Stronger than base
+            description: "Broń legendarnego Uyteka. +15 STR, +5 DEX",
+            isUnique: true
+        };
+    } else if (bossType === 'eloryba3000') {
+        return {
+            name: "Łuska EloRyby",
+            type: 'equipment',
+            slot: 'chest',
+            icon: 'assets/item_armor.svg',
+            stats: { hp: 100 }, // Massive tank boost
+            description: "Lśniąca i twarda. +100 HP",
+            isUnique: true
+        };
+    }
+    return generateRandomItem();
+}

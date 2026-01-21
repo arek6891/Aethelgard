@@ -169,7 +169,8 @@ window.useItem = function(index) {
     
     if (item.type === 'potion') {
         sfx.potion(); 
-        state.player.hp = Math.min(state.player.hp + 20, state.player.maxHp);
+        const heal = item.healAmount || 20;
+        state.player.hp = Math.min(state.player.hp + heal, state.player.maxHp);
         state.player.inventory.splice(index, 1);
         refreshInventoryUI();
     }

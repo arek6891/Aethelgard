@@ -142,7 +142,7 @@ function generateLevel(levelNum) {
 
     // 7. Spawn Wrogów (Skalowanie z poziomem)
     let enemiesCount = 0;
-    const maxEnemies = 20 + (levelNum * 5);
+    const maxEnemies = 10 + (levelNum * 2);
     
     while(enemiesCount < maxEnemies) {
         const ex = Math.floor(Math.random() * config.mapSize);
@@ -229,6 +229,81 @@ function update() {
             // alert(`Schodzisz głębiej... Poziom ${state.level}`);
             generateLevel(state.level);
         }
+    }
+
+    // --- ENEMY AI ---
+    const now = Date.now();
+    state.enemies.forEach(enemy => {
+        // Init properties if missing
+        if (!enemy.lastAttackTime) enemy.lastAttackTime = 0;
+        if (!enemy.speed) enemy.speed = 0.03 + (Math.random() * 0.02); // Slight variation
+        
+        // Simple Patrol Logic
+        if (!enemy.patrolTarget) enemy.patrolTarget = null;
+
+        const distToPlayer = Math.sqrt((state.player.x - enemy.x)**2 + (state.player.y - enemy.y)**2);
+
+        if (distToPlayer < 8) { // AGGRO RANGE
+            enemy.patrolTarget = null; // Forget patrol
+            
+            if (distToPlayer > 1.2) { // CHASE
+                const edx = state.player.x - enemy.x;
+                const edy = state.player.y - enemy.y;
+                enemy.x += (edx / distToPlayer) * enemy.speed;
+                enemy.y += (edy / distToPlayer) * enemy.speed;
+            } else { // ATTACK
+                if (now - enemy.lastAttackTime > 1000) { // 1 sec cooldown
+                    enemy.lastAttackTime = now;
+                    // Calc damage
+                    let dmg = 5 + (state.level * 2); // Scaling damage
+                    if (enemy.type === 'uytek') dmg *= 1.5;
+                    if (enemy.type === 'eloryba3000') dmg *= 2.0;
+                    
+                    state.player.hp -= Math.floor(dmg);
+                    console.log(`${enemy.name || 'Wróg'} atakuje! Obrażenia: ${Math.floor(dmg)}. HP: ${state.player.hp}`);
+                    
+                    // Visual feedback could go here (screen shake etc)
+                }
+            }
+        } else { // PATROL (Random Wander)
+            if (!enemy.patrolTarget && Math.random() < 0.02) {
+                // Pick random point nearby
+                const rx = enemy.x + (Math.random() * 6 - 3);
+                const ry = enemy.y + (Math.random() * 6 - 3);
+                // Basic bounds check
+                if (rx > 1 && rx < config.mapSize-1 && ry > 1 && ry < config.mapSize-1) {
+                     enemy.patrolTarget = { x: rx, y: ry };
+                }
+            }
+            
+            if (enemy.patrolTarget) {
+                const pdx = enemy.patrolTarget.x - enemy.x;
+                const pdy = enemy.patrolTarget.y - enemy.y;
+                const pdist = Math.sqrt(pdx*pdx + pdy*pdy);
+                
+                if (pdist > enemy.speed) {
+                    enemy.x += (pdx / pdist) * (enemy.speed * 0.5); // Walk slower when patrolling
+                    enemy.y += (pdy / pdist) * (enemy.speed * 0.5);
+                } else {
+                    enemy.patrolTarget = null; // Arrived
+                }
+            }
+        }
+    });
+
+    // Check Game Over
+    if (state.player.hp <= 0) {
+        state.player.hp = 0;
+        // Simple Game Over handling
+        // For now, just a console log or maybe a reload if we want to be harsh
+        // console.log("GAME OVER");
+        // alert("GAME OVER!"); 
+        // window.location.reload(); 
+        // Commented out alert to avoid loop, but let's reset to safe spawn
+        state.player.x = 20;
+        state.player.y = 20;
+        state.player.hp = state.player.maxHp;
+        console.log("GAME OVER - RESPAWN");
     }
 
     // Kamera

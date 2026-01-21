@@ -20,7 +20,7 @@ export const sprites = {
     rockUytek: null
 };
 
-function prerenderImage(img, width, height, filter = null) {
+function prerenderImage(img, width, height, filter = null, removeBackground = false) {
     const buffer = document.createElement('canvas');
     buffer.width = width;
     buffer.height = height;
@@ -31,6 +31,27 @@ function prerenderImage(img, width, height, filter = null) {
     }
     
     bCtx.drawImage(img, 0, 0, width, height);
+
+    if (removeBackground) {
+        try {
+            const imageData = bCtx.getImageData(0, 0, width, height);
+            const data = imageData.data;
+            // Loop through pixels
+            for (let i = 0; i < data.length; i += 4) {
+                const r = data[i];
+                const g = data[i + 1];
+                const b = data[i + 2];
+                // If pixel is light enough (white paper), make it transparent
+                if (r > 200 && g > 200 && b > 200) {
+                    data[i + 3] = 0; // Alpha = 0
+                }
+            }
+            bCtx.putImageData(imageData, 0, 0);
+        } catch (e) {
+            console.warn("Chroma Key failed (CORS? Use local server):", e);
+        }
+    }
+
     return buffer;
 }
 
@@ -107,8 +128,8 @@ function processSprites() {
     try { sprites.player = prerenderImage(images.player, 40, 60); } catch(e) { console.warn("Player error", e); }
     try { sprites.skeleton = prerenderImage(images.skeleton, 40, 60); } catch(e) { console.warn("Skeleton error", e); }
     try { sprites.spider = prerenderImage(images.spider, 40, 40); } catch(e) { console.warn("Spider error", e); }
-    try { sprites.uytek = prerenderImage(images.uytek, 40, 40); } catch(e) { console.warn("Uytek error", e); }
-    try { sprites.eloryba3000 = prerenderImage(images.eloryba3000, 60, 40); } catch(e) { console.warn("Eloryba error", e); }
+    try { sprites.uytek = prerenderImage(images.uytek, 40, 40, null, true); } catch(e) { console.warn("Uytek error", e); }
+    try { sprites.eloryba3000 = prerenderImage(images.eloryba3000, 60, 40, null, true); } catch(e) { console.warn("Eloryba error", e); }
     try { sprites.potion = prerenderImage(images.potion, 32, 32); } catch(e) { console.warn("Potion error", e); }
     try { sprites.sack = prerenderImage(images.sack, 32, 32); } catch(e) { console.warn("Sack error", e); }
     

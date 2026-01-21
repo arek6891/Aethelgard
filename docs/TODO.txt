@@ -14,16 +14,16 @@
 - [x] Urozmaicenie terenu (drzewa, woda, skały).
 - [x] Nowe typy wrogów (Pająk, Uytek, Eloryba3000).
 - [x] System Poziomów (Schody, Nieskończona generacja).
-- [x] Obsługa unikalnych grafik JPG (rysunki dzieci).
+- [x] Obsługa unikalnych grafik JPG (rysunki dzieci) + Chroma Key (usuwanie tła).
 - [x] SYSTEM BIOMÓW: Specjalna kolorystyka i moby dla 'Biomu Uytek'.
 - [x] Optymalizacja wydajności (Pre-rendered filters).
+- [x] Drop z Bossów (Unikalne przedmioty z Uyteka/Eloryby).
 
 [PRIORITY - HIGH]
-- [ ] Drop z Bossów (Unikalne przedmioty z Uyteka/Eloryby).
+- [ ] Zbalansowanie poziomu trudności (skalowanie bossów).
 
 [ASSETS - DO ROZBUDOWY]
 - [ ] Więcej typów przedmiotów (Broń, Zbroja - grafiki SVG).
 
 [GAMEPLAY - MECHANIKA]
 - [x] System walki: Dodać animację ataku rycerza (wymachiwanie mieczem) i cooldowny.
-- [ ] Regeneracja wrogów (Respawn) - (zastąpione przez generację nowych poziomów).

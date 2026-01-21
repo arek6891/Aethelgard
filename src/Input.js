@@ -1,6 +1,6 @@
 import { config } from './Config.js';
 import { state } from './GameState.js';
-import { isoToCartesian, generateRandomItem } from './Utils.js';
+import { isoToCartesian, generateRandomItem, generateBossItem } from './Utils.js';
 import { refreshLootUI } from './UI.js';
 import { initAudio, sfx } from './Audio.js';
 
@@ -47,9 +47,26 @@ export function initInput() {
             if (enemy.hp <= 0) {
                 sfx.kill();
                 state.enemies = state.enemies.filter(e => e !== enemy);
+                
+                let drops = [];
+                // Boss Drop Logic
+                if (enemy.type === 'uytek' || enemy.type === 'eloryba3000') {
+                     drops.push(generateBossItem(enemy.type));
+                     // Bonus Large Potion
+                     drops.push({ 
+                        name: "Wielka Mikstura", 
+                        type: 'potion', 
+                        icon: 'assets/item_potion.svg', // Reusing SVG for now
+                        description: "Odnawia 100 HP",
+                        healAmount: 100
+                    });
+                } else {
+                     drops.push(generateRandomItem());
+                }
+
                 state.lootBags.push({
                     x: enemy.x, y: enemy.y,
-                    items: [ generateRandomItem() ]
+                    items: drops
                 });
                 console.log("Wróg zabity!");
             }
