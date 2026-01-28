@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Kartka papieru z oceną -->
+  <defs>
+    <linearGradient id="paperGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff"/>
+      <stop offset="100%" style="stop-color:#e8e8e8"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Zagięty róg -->
+  <polygon points="22,2 30,10 22,10" fill="#c0c0c0"/>
+  
+  <!-- Główna kartka -->
+  <path d="M4,2 L22,2 L22,10 L30,10 L30,30 L4,30 Z" fill="url(#paperGrad)" stroke="#888" stroke-width="1"/>
+  
+  <!-- Linie tekstu -->
+  <line x1="8" y1="14" x2="26" y2="14" stroke="#ddd" stroke-width="1"/>
+  <line x1="8" y1="18" x2="26" y2="18" stroke="#ddd" stroke-width="1"/>
+  <line x1="8" y1="22" x2="20" y2="22" stroke="#ddd" stroke-width="1"/>
+  
+  <!-- Ocena (czerwona) -->
+  <text x="16" y="28" font-family="Arial" font-size="10" font-weight="bold" fill="#cc0000" text-anchor="middle">1</text>
+</svg>

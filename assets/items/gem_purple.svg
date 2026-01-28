@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Fioletowy Klejnot z Wymiaru Uytek -->
+  <defs>
+    <linearGradient id="purpleGem" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#e066ff"/>
+      <stop offset="30%" style="stop-color:#9933ff"/>
+      <stop offset="70%" style="stop-color:#6600cc"/>
+      <stop offset="100%" style="stop-color:#330066"/>
+    </linearGradient>
+    <linearGradient id="gemShine" x1="0%" y1="0%" x2="50%" y2="50%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.8"/>
+      <stop offset="100%" style="stop-color:#ffffff;stop-opacity:0"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Główny kształt klejnotu (diament) -->
+  <polygon points="16,2 28,12 16,30 4,12" fill="url(#purpleGem)" stroke="#220044" stroke-width="1"/>
+  
+  <!-- Środkowa linia -->
+  <line x1="4" y1="12" x2="28" y2="12" stroke="#440088" stroke-width="1"/>
+  <line x1="16" y1="2" x2="16" y2="12" stroke="#440088" stroke-width="0.5"/>
+  <line x1="16" y1="12" x2="4" y2="12" stroke="#550099" stroke-width="0.5"/>
+  <line x1="16" y1="12" x2="28" y2="12" stroke="#550099" stroke-width="0.5"/>
+  
+  <!-- Facety -->
+  <polygon points="16,2 4,12 16,12" fill="#aa44ee" opacity="0.5"/>
+  <polygon points="16,2 28,12 16,12" fill="#7722cc" opacity="0.5"/>
+  
+  <!-- Blask -->
+  <ellipse cx="10" cy="8" rx="3" ry="2" fill="url(#gemShine)"/>
+  
+  <!-- Iskierki -->
+  <circle cx="8" cy="6" r="1" fill="#ffffff" opacity="0.8"/>
+  <circle cx="12" cy="9" r="0.5" fill="#ffffff" opacity="0.6"/>
+</svg>

@@ -1,13 +1,38 @@
 import { state } from './GameState.js';
 import { sfx } from './Audio.js';
+import { SKILLS, getSkillCooldownPercent } from './Skills.js';
+
+// Aktualizacja UI skill bar (cooldowny, mana, aktywny skill)
+window.updateSkillBarUI = function () {
+    const skillBtns = document.querySelectorAll('.skill-btn[data-skill]');
+
+    skillBtns.forEach(btn => {
+        const skillId = btn.dataset.skill;
+        const skill = SKILLS[skillId];
+        if (!skill) return;
+
+        const cooldownOverlay = btn.querySelector('.skill-cooldown-overlay');
+        const cooldownPercent = getSkillCooldownPercent(skillId);
+
+        // Update cooldown overlay (height from top = cooldown remaining)
+        if (cooldownOverlay) {
+            cooldownOverlay.style.height = `${cooldownPercent * 100}%`;
+        }
+
+        // Toggle classes
+        btn.classList.toggle('on-cooldown', cooldownPercent > 0);
+        btn.classList.toggle('no-mana', state.player.mp < skill.mpCost);
+        btn.classList.toggle('active', state.player.selectedSkill === skillId);
+    });
+};
 
 function updateStats() {
     const sStr = document.getElementById('stat-str');
-    if(sStr) sStr.innerText = state.player.stats.str;
+    if (sStr) sStr.innerText = state.player.stats.str;
     const sDex = document.getElementById('stat-dex');
-    if(sDex) sDex.innerText = state.player.stats.dex;
+    if (sDex) sDex.innerText = state.player.stats.dex;
     const sInt = document.getElementById('stat-int');
-    if(sInt) sInt.innerText = state.player.stats.int;
+    if (sInt) sInt.innerText = state.player.stats.int;
 }
 
 export function refreshInventoryUI() {
@@ -16,7 +41,7 @@ export function refreshInventoryUI() {
         s.innerHTML = '';
         s.onclick = () => window.useItem(parseInt(s.dataset.index));
     });
-    
+
     // Rysowanie plecaka
     state.player.inventory.forEach((item, index) => {
         if (index < backpackSlots.length) {
@@ -46,7 +71,7 @@ ${item.description}` : '');
             slot.appendChild(img);
         }
     });
-    
+
     updateStats();
 }
 
@@ -62,17 +87,17 @@ export function refreshLootUI() {
         img.src = item.icon;
         img.className = 'item-icon';
         slot.appendChild(img);
-        
+
         slot.onclick = () => {
             if (state.player.inventory.length < state.player.backpackSize) {
-                sfx.loot(); 
+                sfx.loot();
                 state.player.inventory.push(item);
                 const idx = state.currentLootBag.items.indexOf(item);
                 if (idx > -1) state.currentLootBag.items.splice(idx, 1);
-                
+
                 refreshLootUI();
                 refreshInventoryUI();
-                
+
                 if (state.currentLootBag.items.length === 0) {
                     state.lootBags = state.lootBags.filter(b => b !== state.currentLootBag);
                     document.getElementById('loot-window').style.display = 'none';
@@ -87,7 +112,7 @@ export function refreshLootUI() {
 // Global functions for HTML access
 window.refreshInventoryUI = refreshInventoryUI;
 
-window.toggleInventory = function() {
+window.toggleInventory = function () {
     console.log("Toggle Inventory Clicked!");
     const panel = document.getElementById('inventory-panel');
     if (!panel) {
@@ -114,10 +139,10 @@ export function initUI() {
     if (btnClose) btnClose.addEventListener('click', window.toggleInventory);
 }
 
-window.takeAllLootLogic = function() {
+window.takeAllLootLogic = function () {
     if (!state.currentLootBag) return;
-    
-    if (state.currentLootBag.items.length > 0) sfx.loot(); 
+
+    if (state.currentLootBag.items.length > 0) sfx.loot();
 
     while (state.currentLootBag.items.length > 0) {
         if (state.player.inventory.length < state.player.backpackSize) {
@@ -128,7 +153,7 @@ window.takeAllLootLogic = function() {
             break;
         }
     }
-    
+
     if (state.currentLootBag.items.length === 0) {
         state.lootBags = state.lootBags.filter(b => b !== state.currentLootBag);
         document.getElementById('loot-window').style.display = 'none';
@@ -139,7 +164,7 @@ window.takeAllLootLogic = function() {
     refreshInventoryUI();
 };
 
-window.unequipItem = function(slotName) {
+window.unequipItem = function (slotName) {
     const item = state.player.equipment[slotName];
     if (!item) return;
 
@@ -148,7 +173,7 @@ window.unequipItem = function(slotName) {
         return;
     }
 
-    sfx.equip(); 
+    sfx.equip();
     state.player.equipment[slotName] = null;
     state.player.inventory.push(item);
 
@@ -163,34 +188,41 @@ window.unequipItem = function(slotName) {
     refreshInventoryUI();
 };
 
-window.useItem = function(index) {
+window.useItem = function (index) {
     const item = state.player.inventory[index];
     if (!item) return;
-    
+
     if (item.type === 'potion') {
-        sfx.potion(); 
+        sfx.potion();
         const heal = item.healAmount || 20;
         state.player.hp = Math.min(state.player.hp + heal, state.player.maxHp);
         state.player.inventory.splice(index, 1);
         refreshInventoryUI();
     }
+    else if (item.type === 'throwable') {
+        // Wybierz kartkę do rzucenia
+        sfx.ui();
+        state.player.selectedThrowable = { item, index };
+        console.log(`Wybrano kartkę do rzucenia: ${item.name} (${item.grade || '?'})`);
+        // Kliknięcie na mapie rzuci kartkę
+    }
     else if (item.type === 'equipment') {
         sfx.equip();
         let slot = item.slot;
-        
+
         // Specjalna logika dla pierścieni (ring1/ring2)
         if (slot === 'ring') {
             // Jeśli ring1 pusty, załóż tam. Jak zajęty, sprawdź ring2. Jak oba zajęte, podmień ring1. 
             if (!state.player.equipment.ring1) slot = 'ring1';
             else if (!state.player.equipment.ring2) slot = 'ring2';
-            else slot = 'ring1'; 
+            else slot = 'ring1';
         }
 
         const currentEquip = state.player.equipment[slot];
 
         // Zdejmij obecny (jeśli jest)
         if (currentEquip) {
-            state.player.inventory[index] = currentEquip; 
+            state.player.inventory[index] = currentEquip;
             if (currentEquip.stats) {
                 if (currentEquip.stats.str) state.player.stats.str -= currentEquip.stats.str;
                 if (currentEquip.stats.dex) state.player.stats.dex -= currentEquip.stats.dex;
@@ -204,7 +236,7 @@ window.useItem = function(index) {
         // Załóż nowy
         state.player.equipment[slot] = item;
         item.slot = slot; // Przypisz konkretny slot (np. 'ring1' zamiast ogólnego 'ring')
-        
+
         if (item.stats) {
             if (item.stats.str) state.player.stats.str += item.stats.str;
             if (item.stats.dex) state.player.stats.dex += item.stats.dex;

@@ -17,7 +17,15 @@ export const sprites = {
     // Uytek Biome Variants
     grassUytek: null,
     treeUytek: null,
-    rockUytek: null
+    rockUytek: null,
+    // Inferno Biome Variants
+    grassInferno: null,
+    treeInferno: null,
+    rockInferno: null,
+    waterInferno: null, // Lawa
+    // Inferno Mobs
+    demon: null,
+    fireLord: null
 };
 
 function prerenderImage(img, width, height, filter = null, removeBackground = false) {
@@ -25,11 +33,11 @@ function prerenderImage(img, width, height, filter = null, removeBackground = fa
     buffer.width = width;
     buffer.height = height;
     const bCtx = buffer.getContext('2d');
-    
+
     if (filter) {
         bCtx.filter = filter;
     }
-    
+
     bCtx.drawImage(img, 0, 0, width, height);
 
     if (removeBackground) {
@@ -118,31 +126,50 @@ export function loadAssets() {
 }
 
 function processSprites() {
-    try { 
-        sprites.grass = prerenderImage(images.grass, 64, 32); 
+    try {
+        sprites.grass = prerenderImage(images.grass, 64, 32);
         // Pre-render Uytek Variants (Filters from Game Design)
         sprites.grassUytek = prerenderImage(images.grass, 64, 32, 'hue-rotate(180deg) saturate(1.5) brightness(0.8)');
-    } catch(e) { console.warn("Grass error", e); }
+        // Pre-render Inferno Variants - czerwonawo-brązowa trawa
+        sprites.grassInferno = prerenderImage(images.grass, 64, 32, 'sepia(1) saturate(2) hue-rotate(-30deg) brightness(0.6)');
+    } catch (e) { console.warn("Grass error", e); }
 
-    try { sprites.wall = prerenderImage(images.wall, 64, 82); } catch(e) { console.warn("Wall error", e); }
-    try { sprites.player = prerenderImage(images.player, 40, 60); } catch(e) { console.warn("Player error", e); }
-    try { sprites.skeleton = prerenderImage(images.skeleton, 40, 60); } catch(e) { console.warn("Skeleton error", e); }
-    try { sprites.spider = prerenderImage(images.spider, 40, 40); } catch(e) { console.warn("Spider error", e); }
-    try { sprites.uytek = prerenderImage(images.uytek, 40, 40, null, true); } catch(e) { console.warn("Uytek error", e); }
-    try { sprites.eloryba3000 = prerenderImage(images.eloryba3000, 60, 40, null, true); } catch(e) { console.warn("Eloryba error", e); }
-    try { sprites.potion = prerenderImage(images.potion, 32, 32); } catch(e) { console.warn("Potion error", e); }
-    try { sprites.sack = prerenderImage(images.sack, 32, 32); } catch(e) { console.warn("Sack error", e); }
-    
-    try { 
-        sprites.tree = prerenderImage(images.tree, 64, 96); 
+    try { sprites.wall = prerenderImage(images.wall, 64, 82); } catch (e) { console.warn("Wall error", e); }
+    try { sprites.player = prerenderImage(images.player, 40, 60); } catch (e) { console.warn("Player error", e); }
+    try { sprites.skeleton = prerenderImage(images.skeleton, 40, 60); } catch (e) { console.warn("Skeleton error", e); }
+    try { sprites.spider = prerenderImage(images.spider, 40, 40); } catch (e) { console.warn("Spider error", e); }
+    try { sprites.uytek = prerenderImage(images.uytek, 40, 40, null, true); } catch (e) { console.warn("Uytek error", e); }
+    try { sprites.eloryba3000 = prerenderImage(images.eloryba3000, 60, 40, null, true); } catch (e) { console.warn("Eloryba error", e); }
+    try { sprites.potion = prerenderImage(images.potion, 32, 32); } catch (e) { console.warn("Potion error", e); }
+    try { sprites.sack = prerenderImage(images.sack, 32, 32); } catch (e) { console.warn("Sack error", e); }
+
+    try {
+        sprites.tree = prerenderImage(images.tree, 64, 96);
         sprites.treeUytek = prerenderImage(images.tree, 64, 96, 'hue-rotate(40deg) brightness(1.2) saturate(1.5)');
-    } catch(e) { console.warn("Tree error", e); }
+        // Inferno - spalone drzewo (ciemne, czerwonawe)
+        sprites.treeInferno = prerenderImage(images.tree, 64, 96, 'sepia(1) saturate(0.5) brightness(0.4) contrast(1.2)');
+    } catch (e) { console.warn("Tree error", e); }
 
-    try { 
-        sprites.rock = prerenderImage(images.rock, 64, 64); 
+    try {
+        sprites.rock = prerenderImage(images.rock, 64, 64);
         sprites.rockUytek = prerenderImage(images.rock, 64, 64, 'sepia(1) saturate(3) hue-rotate(-30deg)');
-    } catch(e) { console.warn("Rock error", e); }
+        // Inferno - rozżarzona skała
+        sprites.rockInferno = prerenderImage(images.rock, 64, 64, 'sepia(1) saturate(2) hue-rotate(-20deg) brightness(0.8)');
+    } catch (e) { console.warn("Rock error", e); }
 
-    try { sprites.water = prerenderImage(images.water, 64, 32); } catch(e) { console.warn("Water error", e); }
-    try { sprites.stairs = prerenderImage(images.stairs, 64, 32); } catch(e) { console.warn("Stairs error", e); }
+    try {
+        sprites.water = prerenderImage(images.water, 64, 32);
+        // Inferno - lawa (czerwono-pomarańczowa)
+        sprites.waterInferno = prerenderImage(images.water, 64, 32, 'sepia(1) saturate(3) hue-rotate(-50deg) brightness(1.2)');
+    } catch (e) { console.warn("Water error", e); }
+
+    try { sprites.stairs = prerenderImage(images.stairs, 64, 32); } catch (e) { console.warn("Stairs error", e); }
+
+    // Inferno Mobs - generowane z istniejących
+    try {
+        // Demon - czerwony szkielet z płomieniami
+        sprites.demon = prerenderImage(images.skeleton, 40, 60, 'sepia(1) saturate(3) hue-rotate(-30deg) brightness(1.1)');
+        // Fire Lord - duży czerwony boss
+        sprites.fireLord = prerenderImage(images.skeleton, 60, 80, 'sepia(1) saturate(4) hue-rotate(-40deg) brightness(1.3)');
+    } catch (e) { console.warn("Inferno mobs error", e); }
 }

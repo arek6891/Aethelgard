@@ -18,6 +18,10 @@
 - [x] SYSTEM BIOMÓW: Specjalna kolorystyka i moby dla 'Biomu Uytek'.
 - [x] Optymalizacja wydajności (Pre-rendered filters).
 - [x] Drop z Bossów (Unikalne przedmioty z Uyteka/Eloryby).
+- [x] SYSTEM UMIEJĘTNOŚCI: 3 skille (Q-Fireball, W-FrostNova, E-Lightning) z cooldownami, MP, efektami wizualnymi.
+- [x] BOSS ELORYBA3000: Spawn z wody, atak kartkami z ocenami, drop przedmiotów throwable.
+- [x] BOSS UYTEK: Wołanie pobliskich mobów do ataku, drop 2 fioletowych klejnotów + Włócznia.
+- [x] BIOM INFERNO: Czerwona trawa, lawa, spalone drzewa, Demony, boss Władca Ognia.
 
 [PRIORITY - HIGH]
 - [ ] Zbalansowanie poziomu trudności (skalowanie bossów).

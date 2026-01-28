@@ -1,8 +1,8 @@
 # Kontekst Techniczny Projektu: Aethelgard
 
 ## Status Projektu
-**Faza:** Alpha / Infinite World (v0.4)
-**Ostatnia aktualizacja:** 19.01.2026
+**Faza:** Alpha / Infinite World (v0.6)
+**Ostatnia aktualizacja:** 28.01.2026
 
 ## Kluczowe Rozwiązania Techniczne (DLA AI - CZYTAJ TO!)
 
@@ -35,9 +35,17 @@
 
 ## Struktura Danych
 - `mapData[x][y]`: 0 = podłoga, 1 = ściana.
-- `enemies`: Tablica obiektów `{x, y, hp, maxHp, type}`.
+- `enemies`: Tablica obiektów `{x, y, hp, maxHp, type, slowed?, slowUntil?, speed}`.
 - `lootBags`: Tablica worków na ziemi `{x, y, items[]}`.
 - `player.inventory`: Tablica przedmiotów w plecaku.
+- `player.skills`: Obiekt `{fireball: {lastUsed}, frostNova: {lastUsed}, lightning: {lastUsed}}`.
+- `player.selectedSkill`: Aktualnie wybrany skill lub null.
+
+### 6. System Umiejętności (Skills)
+- **Moduły:** `Skills.js` (logika), `SkillEffects.js` (efekty wizualne).
+- **Aktywacja:** Klawisze Q/W/E wybierają skill, kliknięcie myszy go używa.
+- **Efekty:** Renderowane na Canvas w `Renderer.js` przed winietą.
+- **Slow Effect:** Wrogowie mogą być spowolnieni (property `slowed`, `slowUntil`, `speed`).
 
 ## Znane Problemy
 - Przy dużej ilości wrogów sortowanie w JS może zwalniać (na razie przy <100 jest ok).

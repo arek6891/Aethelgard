@@ -12,7 +12,7 @@ export function initAudio() {
 
 function playTone(freq, type, duration, vol = 0.1) {
     if (!audioCtx || isMuted) return;
-    
+
     // Resume context if suspended (browser policy)
     if (audioCtx.state === 'suspended') {
         audioCtx.resume();
@@ -23,7 +23,7 @@ function playTone(freq, type, duration, vol = 0.1) {
 
     osc.type = type;
     osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-    
+
     gain.gain.setValueAtTime(vol, audioCtx.currentTime);
     gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + duration);
 
@@ -98,6 +98,37 @@ export const sfx = {
     },
     ui: () => {
         playTone(800, 'triangle', 0.05, 0.02);
+    },
+    // Skill sounds
+    fireball: () => {
+        // Whoosh + explosion
+        playNoise(0.1, 0.15);
+        setTimeout(() => {
+            playTone(100, 'sawtooth', 0.2, 0.15);
+            playTone(80, 'square', 0.3, 0.1);
+        }, 50);
+    },
+    frostNova: () => {
+        // Crystalline shimmer
+        playTone(2000, 'sine', 0.1, 0.05);
+        setTimeout(() => playTone(2500, 'sine', 0.15, 0.04), 50);
+        setTimeout(() => playTone(3000, 'sine', 0.2, 0.03), 100);
+        setTimeout(() => playTone(1500, 'triangle', 0.3, 0.05), 150);
+    },
+    lightning: () => {
+        // Electric crackle
+        playNoise(0.05, 0.2);
+        playTone(1000, 'sawtooth', 0.1, 0.15);
+        setTimeout(() => {
+            playNoise(0.08, 0.15);
+            playTone(800, 'square', 0.15, 0.1);
+        }, 80);
+    },
+    paperThrow: () => {
+        // Szelest papieru
+        playNoise(0.08, 0.08);
+        playTone(2000, 'sine', 0.05, 0.03);
+        setTimeout(() => playTone(1800, 'triangle', 0.08, 0.02), 30);
     }
 };
 

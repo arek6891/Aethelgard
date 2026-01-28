@@ -24,11 +24,20 @@ export const state = {
             str: 10,
             dex: 10,
             int: 10
-        }
+        },
+        // Skill System
+        skills: {
+            fireball: { lastUsed: 0 },
+            frostNova: { lastUsed: 0 },
+            lightning: { lastUsed: 0 }
+        },
+        selectedSkill: null, // 'fireball', 'frostNova', 'lightning' or null
+        lastMpRegen: 0 // timestamp for MP regeneration
     },
     mapData: [], // 2D array [x][y]
     enemies: [],
     lootBags: [],
     currentLootBag: null,
-    level: 1
+    level: 1,
+    projectiles: [] // Rzucane kartki (od Eloryby i gracza)
 };
