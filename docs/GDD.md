@@ -13,7 +13,7 @@ Gra RPG akcji (ARPG) typu "Nieskończony Dungeon Crawler" w rzucie izometrycznym
 - **Plecak:** Grid 5x4 (20 slotów).
 - **Typy przedmiotów:**
     - *Consumables:* Mikstury (odnawiają HP/MP, znikają po użyciu).
-    - *Equipment:* Miecze, Zbroje - zwiększają statystyki.
+    - *Equipment:* Miecze, Topory, Sztylety (Mainhand), Tarcze (Offhand), Hełmy (Head), Zbroje (Chest), Buty (Legs), Pierścienie (Ring).
     - *Throwable:* Kartki z ocenami - można je rzucać we wrogów (kliknij w ekwipunku, potem na mapie).
 
 ## 3a. Bossowie
@@ -57,7 +57,7 @@ Gracz posiada 3 aktywne umiejętności aktywowane klawiszami Q, W, E:
   - **Uytek (30%)** - niebieska trawa, żółte drzewa, armia Uyteków
   - **Inferno (25%)** - czerwona trawa, spalone drzewa, lawowe jeziora, Demony i Władca Ognia
 - **Progresja:** Aby przejść dalej, gracz musi znaleźć Schody (zazwyczaj w rogu mapy).
-- **Trudność:** Z każdym poziomem wrogowie mają więcej HP i zadają większe obrażenia.
+- **Trudność:** Z każdym poziomem wrogowie zyskują statystyki (HP +25%/lvl, DMG +10%/lvl). Bossowie stanowią znacznie większe wyzwanie.
 
 ### Biom Inferno (Piekielny)
 - **Kolorystyka:** Czerwono-brązowa trawa, spalone ciemne drzewa, rozżarzone skały

@@ -1,0 +1,13 @@
+<svg width="64" height="64" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="shadow">
+      <feDropShadow dx="2" dy="2" stdDeviation="1" flood-color="#000" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+  <!-- Shield Body -->
+  <path d="M15 15 L 49 15 L 49 35 Q 32 60, 15 35 Z" fill="#A0522D" stroke="#502816" stroke-width="2" filter="url(#shadow)"/>
+  <!-- Rim -->
+  <path d="M18 18 L 46 18 L 46 34 Q 32 54, 18 34 Z" fill="none" stroke="#DAA520" stroke-width="2"/>
+  <!-- Boss -->
+  <circle cx="32" cy="30" r="4" fill="#606060" stroke="#303030"/>
+</svg>

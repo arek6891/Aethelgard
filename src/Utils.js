@@ -18,8 +18,8 @@ export function isoToCartesian(screenX, screenY) {
 export function generateRandomItem() {
     const rand = Math.random();
 
-    // 50% na Miksturę
-    if (rand < 0.5) {
+    // 25% na Miksturę (mniej niż wcześniej, bo więcej itemów)
+    if (rand < 0.25) {
         return {
             name: "Mikstura Zdrowia",
             type: 'potion',
@@ -27,26 +27,123 @@ export function generateRandomItem() {
             description: "Odnawia 20 HP"
         };
     }
-    // 30% na Miecz
-    else if (rand < 0.8) {
-        return {
-            name: "Stary Miecz",
+
+    // Generowanie Ekwipunku
+    const typeRoll = Math.random();
+
+    // HEAD (15%)
+    if (typeRoll < 0.15) {
+        return Math.random() < 0.5 ? {
+            name: "Skórzana Czapka",
             type: 'equipment',
-            slot: 'mainhand',
-            icon: 'assets/item_sword.svg',
-            stats: { str: 2 },
-            description: "+2 Siły"
+            slot: 'head',
+            icon: 'assets/items/item_helmet.svg',
+            stats: { hp: 10 },
+            description: "+10 HP"
+        } : {
+            name: "Żelazny Hełm",
+            type: 'equipment',
+            slot: 'head',
+            icon: 'assets/items/item_helmet.svg',
+            stats: { hp: 25, str: 1 },
+            description: "+25 HP, +1 STR"
         };
     }
-    // 20% na Zbroję
-    else {
-        return {
+    // CHEST (15%)
+    else if (typeRoll < 0.30) {
+        return Math.random() < 0.5 ? {
             name: "Skórzana Zbroja",
             type: 'equipment',
             slot: 'chest',
             icon: 'assets/item_armor.svg',
-            stats: { hp: 10 },
-            description: "+10 HP"
+            stats: { hp: 20 },
+            description: "+20 HP"
+        } : {
+            name: "Płytowa Zbroja",
+            type: 'equipment',
+            slot: 'chest',
+            icon: 'assets/item_armor.svg',
+            stats: { hp: 50, speed: -0.01 },
+            description: "+50 HP, -Speed"
+        };
+    }
+    // LEGS (15%)
+    else if (typeRoll < 0.45) {
+        return Math.random() < 0.5 ? {
+            name: "Buty Podróżnika",
+            type: 'equipment',
+            slot: 'legs',
+            icon: 'assets/items/item_boots.svg',
+            stats: { speed: 0.02 },
+            description: "+Speed"
+        } : {
+            name: "Ciężkie Buty",
+            type: 'equipment',
+            slot: 'legs',
+            icon: 'assets/items/item_boots.svg',
+            stats: { hp: 15, speed: -0.005 },
+            description: "+15 HP"
+        };
+    }
+    // MAINHAND (20%)
+    else if (typeRoll < 0.65) {
+        const weaponRoll = Math.random();
+        if (weaponRoll < 0.33) {
+            return {
+                name: "Stary Miecz",
+                type: 'equipment',
+                slot: 'mainhand',
+                icon: 'assets/item_sword.svg',
+                stats: { str: 2 },
+                description: "+2 STR"
+            };
+        } else if (weaponRoll < 0.66) {
+            return {
+                name: "Topór Wojenny",
+                type: 'equipment',
+                slot: 'mainhand',
+                icon: 'assets/items/item_axe.svg',
+                stats: { str: 4, speed: -0.005 },
+                description: "+4 STR, Ciężki"
+            };
+        } else {
+            return {
+                name: "Sztylet",
+                type: 'equipment',
+                slot: 'mainhand',
+                icon: 'assets/items/item_dagger.svg',
+                stats: { dex: 3, speed: 0.01 },
+                description: "+3 DEX, Lekki"
+            };
+        }
+    }
+    // OFFHAND (15%)
+    else if (typeRoll < 0.80) {
+        return {
+            name: "Drewniana Tarcza",
+            type: 'equipment',
+            slot: 'offhand',
+            icon: 'assets/items/item_shield.svg',
+            stats: { hp: 15 },
+            description: "+15 HP"
+        };
+    }
+    // RINGS (20%)
+    else {
+        return Math.random() < 0.5 ? {
+            name: "Złoty Pierścień",
+            type: 'equipment',
+            slot: 'ring', // Generic slot, UI handles placement
+            icon: 'assets/items/item_ring.svg',
+            stats: { int: 3 },
+            description: "+3 INT"
+        } : {
+            name: "Srebrny Pierścień",
+            type: 'equipment',
+            slot: 'ring',
+            icon: 'assets/items/item_ring.svg',
+            stats: { dex: 3 },
+            description: "+3 DEX"
         };
     }
 }

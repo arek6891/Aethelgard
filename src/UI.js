@@ -183,6 +183,7 @@ window.unequipItem = function (slotName) {
         if (item.stats.dex) state.player.stats.dex -= item.stats.dex;
         if (item.stats.int) state.player.stats.int -= item.stats.int;
         if (item.stats.hp) state.player.maxHp -= item.stats.hp;
+        if (item.stats.speed) state.player.speed -= item.stats.speed;
     }
 
     refreshInventoryUI();
@@ -228,6 +229,7 @@ window.useItem = function (index) {
                 if (currentEquip.stats.dex) state.player.stats.dex -= currentEquip.stats.dex;
                 if (currentEquip.stats.int) state.player.stats.int -= currentEquip.stats.int;
                 if (currentEquip.stats.hp) state.player.maxHp -= currentEquip.stats.hp;
+                if (currentEquip.stats.speed) state.player.speed -= currentEquip.stats.speed;
             }
         } else {
             state.player.inventory.splice(index, 1);
@@ -242,6 +244,7 @@ window.useItem = function (index) {
             if (item.stats.dex) state.player.stats.dex += item.stats.dex;
             if (item.stats.int) state.player.stats.int += item.stats.int;
             if (item.stats.hp) state.player.maxHp += item.stats.hp;
+            if (item.stats.speed) state.player.speed += item.stats.speed;
         }
 
         refreshInventoryUI();

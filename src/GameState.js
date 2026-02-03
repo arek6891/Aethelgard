@@ -18,7 +18,9 @@ export const state = {
             chest: null,
             mainhand: null,
             offhand: null,
-            legs: null
+            legs: null,
+            ring1: null,
+            ring2: null
         },
         stats: {
             str: 10,

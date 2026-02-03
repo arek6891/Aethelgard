@@ -24,10 +24,11 @@
 - [x] BIOM INFERNO: Czerwona trawa, lawa, spalone drzewa, Demony, boss Władca Ognia.
 
 [PRIORITY - HIGH]
-- [ ] Zbalansowanie poziomu trudności (skalowanie bossów).
+- [x] Zbalansowanie poziomu trudności (skalowanie bossów).
+- [x] Balans spawnu wrogów (Formuła: 2 + Level * 3).
 
 [ASSETS - DO ROZBUDOWY]
-- [ ] Więcej typów przedmiotów (Broń, Zbroja - grafiki SVG).
+- [x] Więcej typów przedmiotów (Nowe SVG: Topór, Sztylet, Hełm, Buty, Tarcza, Pierścień).
 
 [GAMEPLAY - MECHANIKA]
 - [x] System walki: Dodać animację ataku rycerza (wymachiwanie mieczem) i cooldowny.

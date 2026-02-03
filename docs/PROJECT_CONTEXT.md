@@ -1,8 +1,8 @@
 # Kontekst Techniczny Projektu: Aethelgard
 
 ## Status Projektu
-**Faza:** Alpha / Infinite World (v0.6)
-**Ostatnia aktualizacja:** 28.01.2026
+**Faza:** Alpha / Infinite World (v0.7)
+**Ostatnia aktualizacja:** 03.02.2026
 
 ## Kluczowe Rozwiązania Techniczne (DLA AI - CZYTAJ TO!)
 
@@ -11,12 +11,14 @@
 - **Pre-rendering:** Używamy patternu `prerenderImage`. Przy starcie gry (`onAssetLoad`) każdy plik jest renderowany raz na niewidoczne płótno.
 - **Warianty Biomów (Optymalizacja):** Dla specjalnych biomów (np. Uytek) generujemy "pokolorowane" wersje assetów (trawa, drzewa, skały) przy użyciu filtrów CSS w `prerenderImage`. Zapobiega to spadkom wydajności (60 FPS zachowane), które występowałyby przy nakładaniu filtrów w czasie rzeczywistym.
 - **Obsługa JPG:** Dodano obsługę plików JPG dla unikalnych assetów (rysunki dzieci: Uytek, Eloryba3000).
-- **Z-Sorting:** Funkcja `drawScene` sortuje teraz wszystkie obiekty (zarówno moby, jak i statyczne drzewa/skały/ściany) według osi Y, co pozwala na poprawne "chowanie się" za elementami otoczenia.
+- **Z-Sorting:** Funkcja `drawScene` sortuje obiekt wg osi Y.
+- **Generator Przedmiotów:** Rozbudowany w `Utils.js` - obsługuje teraz Hełmy, Zbroje, Buty (Speed), Bronie (Topory/Sztylety), Tarcze i Biżuterię.
+
 
 ### 4. Level Generation & Progression
 - **Nieskończone Poziomy:** Gra generuje nową mapę proceduralnie przy każdym wejściu na schody (`tile_stairs`).
 - **System Biomów:** Przy generacji poziomu losowany jest biom (np. `state.biome = 'uytek'`). Wpływa to na paletę barw otoczenia oraz typy spawnowanych przeciwników.
-- **Skalowanie:** Z każdym poziomem (`state.level`) wrogowie mają więcej HP i jest ich więcej.
+- **Skalowanie:** Z każdym poziomem (`state.level`) wrogowie mają więcej HP i jest ich więcej (Formuła: `2 + Level * 3`).
 - **Unikalne Moby:** System spawnuje rzadkie potwory (Uytek, Eloryba3000) z określoną szansą (30%/20%) w losowych miejscach mapy. W biomie Uytek armia Uyteków staje się standardowym przeciwnikiem.
 
 ### 5. Renderowanie Sceny (Layering)
@@ -43,9 +45,15 @@
 
 ### 6. System Umiejętności (Skills)
 - **Moduły:** `Skills.js` (logika), `SkillEffects.js` (efekty wizualne).
-- **Aktywacja:** Klawisze Q/W/E wybierają skill, kliknięcie myszy go używa.
+- **Aktywacja:** Klawes Q/W/E wybierają skill, kliknięcie myszy go używa.
 - **Efekty:** Renderowane na Canvas w `Renderer.js` przed winietą.
 - **Slow Effect:** Wrogowie mogą być spowolnieni (property `slowed`, `slowUntil`, `speed`).
+
+### 7. System Trudności (Difficulty Scaling)
+- **Moduł:** `src/Difficulty.js`
+- **Skalowanie:** Statystyki wrogów (HP, DMG) są obliczane dynamicznie przy spawnie.
+- **Formuła:** `Base * (1 + 0.25 * (Level-1)) + Flat`.
+- **Bossowie:** Uytek, Eloryba i Fire Lord mają dedykowane, wyższe statystyki bazowe.
 
 ## Znane Problemy
 - Przy dużej ilości wrogów sortowanie w JS może zwalniać (na razie przy <100 jest ok).

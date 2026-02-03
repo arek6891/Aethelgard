@@ -1,0 +1,12 @@
+<svg width="64" height="64" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="shadow">
+      <feDropShadow dx="2" dy="2" stdDeviation="1" flood-color="#000" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+  <!-- Handle -->
+  <rect x="30" y="10" width="4" height="50" rx="1" fill="#8B4513" stroke="#4a2c10" stroke-width="1" filter="url(#shadow)"/>
+  <!-- Blades -->
+  <path d="M30 15 Q 10 10, 10 25 Q 10 40, 30 35 Z" fill="#C0C0C0" stroke="#404040" stroke-width="1" filter="url(#shadow)"/>
+  <path d="M34 15 Q 54 10, 54 25 Q 54 40, 34 35 Z" fill="#C0C0C0" stroke="#404040" stroke-width="1" filter="url(#shadow)"/>
+</svg>

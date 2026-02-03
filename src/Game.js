@@ -5,6 +5,7 @@ import { drawScene, resize } from './Renderer.js';
 import { initInput } from './Input.js';
 import { updateSlowEffects } from './Skills.js';
 import { updateEffects } from './SkillEffects.js';
+import { calculateEnemyStats } from './Difficulty.js';
 
 const canvas = document.getElementById('gameCanvas');
 
@@ -117,11 +118,13 @@ function generateLevel(levelNum) {
             const ux = Math.floor(Math.random() * config.mapSize);
             const uy = Math.floor(Math.random() * config.mapSize);
             if (state.mapData[ux][uy] === 0 && (ux < 15 || ux > 25 || uy < 15 || uy > 25)) {
+                const stats = calculateEnemyStats('uytek', levelNum, true); // true = isBoss
                 state.enemies.push({
                     x: ux, y: uy,
                     type: 'uytek',
-                    hp: 15 + (levelNum * 2), // Słaby, ale irytujący
-                    maxHp: 15 + (levelNum * 2),
+                    hp: stats.hp,
+                    maxHp: stats.maxHp,
+                    damage: stats.damage,
                     name: "Uytek"
                 });
                 placed = true;
@@ -170,12 +173,14 @@ function generateLevel(levelNum) {
             console.log(`Eloryba3000 pojawia się na lądzie (${spawnX}, ${spawnY}) - brak wody!`);
         }
 
+        const stats = calculateEnemyStats('eloryba3000', levelNum, true);
         state.enemies.push({
             x: spawnX,
             y: spawnY,
             type: 'eloryba3000',
-            hp: 60 + (levelNum * 10),
-            maxHp: 60 + (levelNum * 10),
+            hp: stats.hp,
+            maxHp: stats.maxHp,
+            damage: stats.damage,
             name: "Eloryba3000",
             isWaterBoss: true,
             throwCooldown: 0,
@@ -214,12 +219,14 @@ function generateLevel(levelNum) {
             spawnY = 5 + Math.floor(Math.random() * 5);
         }
 
+        const stats = calculateEnemyStats('fireLord', levelNum, true);
         state.enemies.push({
             x: spawnX,
             y: spawnY,
             type: 'fireLord',
-            hp: 100 + (levelNum * 15),
-            maxHp: 100 + (levelNum * 15),
+            hp: stats.hp,
+            maxHp: stats.maxHp,
+            damage: stats.damage,
             name: "Władca Ognia",
             isBoss: true,
             fireAttackCooldown: 0,
@@ -231,7 +238,9 @@ function generateLevel(levelNum) {
 
     // 7. Spawn Wrogów (Skalowanie z poziomem)
     let enemiesCount = 0;
-    const maxEnemies = 10 + (levelNum * 2);
+    // Formuła: 2 + (Level * 3). Level 1 = 5, Level 10 = 32.
+    const maxEnemies = 2 + (levelNum * 3);
+    console.log(`Cel spawnu wrogów: ${maxEnemies}`);
 
     while (enemiesCount < maxEnemies) {
         const ex = Math.floor(Math.random() * config.mapSize);
@@ -261,11 +270,14 @@ function generateLevel(levelNum) {
                 enemyName = isSpider ? 'Pająk' : 'Szkielet';
             }
 
+            const stats = calculateEnemyStats(enemyType, levelNum, false);
+
             state.enemies.push({
                 x: ex, y: ey,
                 type: enemyType,
-                hp: baseHp + (levelNum * 5),
-                maxHp: baseHp + (levelNum * 5),
+                hp: stats.hp,
+                maxHp: stats.maxHp,
+                damage: stats.damage,
                 name: enemyName
             });
             enemiesCount++;
@@ -407,7 +419,8 @@ function update() {
                             y: enemy.y,
                             vx: (dx / dist) * 0.15, // Prędkość kartki
                             vy: (dy / dist) * 0.15,
-                            damage: 8 + (state.level * 2),
+                            damage: enemy.damage, // Use calculated stats
+
                             grade: grade,
                             owner: 'enemy',
                             lifetime: 3000,
@@ -420,8 +433,7 @@ function update() {
                     // Bliska walka - skok i uderzenie
                     if (now - enemy.lastAttackTime > 1000) {
                         enemy.lastAttackTime = now;
-                        let dmg = 5 + (state.level * 2);
-                        dmg *= 2.0;
+                        let dmg = enemy.damage * 1.5; // Tail slap is stronger
                         state.player.hp -= Math.floor(dmg);
                         console.log(`${enemy.name} uderza ogonem! Obrażenia: ${Math.floor(dmg)}. HP: ${state.player.hp}`);
                     }
@@ -439,9 +451,7 @@ function update() {
                 if (now - enemy.lastAttackTime > 1000) { // 1 sec cooldown
                     enemy.lastAttackTime = now;
                     // Calc damage
-                    let dmg = 5 + (state.level * 2); // Scaling damage
-                    if (enemy.type === 'uytek') dmg *= 1.5;
-
+                    let dmg = enemy.damage || (5 + state.level); // Fallback if missing
                     state.player.hp -= Math.floor(dmg);
                     console.log(`${enemy.name || 'Wróg'} atakuje! Obrażenia: ${Math.floor(dmg)}. HP: ${state.player.hp}`);
 
