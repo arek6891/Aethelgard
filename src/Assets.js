@@ -4,7 +4,11 @@ export const images = {
     uytek: new Image(), eloryba3000: new Image(),
     potion: new Image(), sack: new Image(),
     tree: new Image(), rock: new Image(), water: new Image(),
-    stairs: new Image()
+    stairs: new Image(),
+    // Items
+    itemHelmet: new Image(), itemBoots: new Image(), itemAxe: new Image(),
+    itemDagger: new Image(), itemShield: new Image(), itemRing: new Image(),
+    gemPurple: new Image(), kartka: new Image()
 };
 
 export const sprites = {
@@ -25,7 +29,12 @@ export const sprites = {
     waterInferno: null, // Lawa
     // Inferno Mobs
     demon: null,
-    fireLord: null
+    fireLord: null,
+    fireSkeleton: null,
+    // Items
+    itemHelmet: null, itemBoots: null, itemAxe: null,
+    itemDagger: null, itemShield: null, itemRing: null,
+    gemPurple: null, kartka: null
 };
 
 function prerenderImage(img, width, height, filter = null, removeBackground = false) {
@@ -65,7 +74,7 @@ function prerenderImage(img, width, height, filter = null, removeBackground = fa
 
 export function loadAssets() {
     return new Promise((resolve, reject) => {
-        const totalAssets = 13;
+        const totalAssets = 21;
         let assetsLoaded = 0;
 
         function checkLoad() {
@@ -105,7 +114,7 @@ export function loadAssets() {
         images.eloryba3000.src = 'assets/mobs/EloRyba3000.jpg';
         images.eloryba3000.onload = checkLoad; images.eloryba3000.onerror = onError;
 
-        images.potion.src = 'assets/item_potion.svg';
+        images.potion.src = 'assets/items/micsture.jpg';
         images.potion.onload = checkLoad; images.potion.onerror = onError;
 
         images.sack.src = 'assets/item_sack.svg';
@@ -122,6 +131,31 @@ export function loadAssets() {
 
         images.stairs.src = 'assets/tile_stairs.svg';
         images.stairs.onload = checkLoad; images.stairs.onerror = onError;
+
+        // ITEMS
+        images.itemHelmet.src = 'assets/items/item_helmet.svg';
+        images.itemHelmet.onload = checkLoad; images.itemHelmet.onerror = onError;
+
+        images.itemBoots.src = 'assets/items/item_boots.svg';
+        images.itemBoots.onload = checkLoad; images.itemBoots.onerror = onError;
+
+        images.itemAxe.src = 'assets/items/item_axe.svg';
+        images.itemAxe.onload = checkLoad; images.itemAxe.onerror = onError;
+
+        images.itemDagger.src = 'assets/items/item_dagger.svg';
+        images.itemDagger.onload = checkLoad; images.itemDagger.onerror = onError;
+
+        images.itemShield.src = 'assets/items/item_shield.svg';
+        images.itemShield.onload = checkLoad; images.itemShield.onerror = onError;
+
+        images.itemRing.src = 'assets/items/item_ring.svg';
+        images.itemRing.onload = checkLoad; images.itemRing.onerror = onError;
+
+        images.gemPurple.src = 'assets/items/gem_purple.svg';
+        images.gemPurple.onload = checkLoad; images.gemPurple.onerror = onError;
+
+        images.kartka.src = 'assets/items/kartka.svg';
+        images.kartka.onload = checkLoad; images.kartka.onerror = onError;
     });
 }
 
@@ -171,5 +205,17 @@ function processSprites() {
         sprites.demon = prerenderImage(images.skeleton, 40, 60, 'sepia(1) saturate(3) hue-rotate(-30deg) brightness(1.1)');
         // Fire Lord - duży czerwony boss
         sprites.fireLord = prerenderImage(images.skeleton, 60, 80, 'sepia(1) saturate(4) hue-rotate(-40deg) brightness(1.3)');
+        // Fire Skeleton - płomienny szkielet (pomarańczowo-czerwony)
+        sprites.fireSkeleton = prerenderImage(images.skeleton, 40, 60, 'sepia(1) saturate(2) hue-rotate(-10deg) brightness(1.2)');
     } catch (e) { console.warn("Inferno mobs error", e); }
+
+    // Items - przedmioty
+    try { sprites.itemHelmet = prerenderImage(images.itemHelmet, 32, 32); } catch (e) { console.warn("Item helmet error", e); }
+    try { sprites.itemBoots = prerenderImage(images.itemBoots, 32, 32); } catch (e) { console.warn("Item boots error", e); }
+    try { sprites.itemAxe = prerenderImage(images.itemAxe, 32, 32); } catch (e) { console.warn("Item axe error", e); }
+    try { sprites.itemDagger = prerenderImage(images.itemDagger, 32, 32); } catch (e) { console.warn("Item dagger error", e); }
+    try { sprites.itemShield = prerenderImage(images.itemShield, 32, 32); } catch (e) { console.warn("Item shield error", e); }
+    try { sprites.itemRing = prerenderImage(images.itemRing, 32, 32); } catch (e) { console.warn("Item ring error", e); }
+    try { sprites.gemPurple = prerenderImage(images.gemPurple, 32, 32); } catch (e) { console.warn("Gem purple error", e); }
+    try { sprites.kartka = prerenderImage(images.kartka, 32, 32); } catch (e) { console.warn("Kartka error", e); }
 }

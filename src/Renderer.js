@@ -216,7 +216,7 @@ export function drawScene() {
         else if (e.type === 'eloryba3000') sprite = sprites.eloryba3000;
         // Inferno mobs
         else if (e.type === 'demon') sprite = sprites.demon;
-        else if (e.type === 'fireSkeleton') sprite = sprites.demon; // Używa tego samego sprite
+        else if (e.type === 'fireSkeleton') sprite = sprites.fireSkeleton;
         else if (e.type === 'fireLord') sprite = sprites.fireLord;
 
         renderList.push({

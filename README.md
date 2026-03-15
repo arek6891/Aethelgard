@@ -12,7 +12,7 @@ Aethelgard is a role-playing game featuring:
 - **Inventory Service**: Manage your loot with a Diablo-style inventory.
 - **Save System**: Your progress is saved automatically.
 
-## 🛠️ Tecchnology Stack
+## 🛠️ Technology Stack
 - **Core**: HTML5, CSS3, JavaScript (ES6+)
 - **Storage**: LocalStorage for save data
 - **Audio**: Web Audio API
